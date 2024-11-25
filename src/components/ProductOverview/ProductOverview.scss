@@ -1,0 +1,30 @@
+.ProductOverview {
+  width: 60em;
+  height: 100%;
+
+  &__Item {
+    background-color: rgb(220, 220, 220);
+
+    &.List {
+      width: 100%;
+      margin: 1em 0;
+    }
+
+    &.Grid {
+      width: 14em;
+      margin: 0.5em;
+      padding: 1em;
+      border-radius: 5px;
+    }
+  }
+
+  & .grid:has(.ProductOverview__Item.Grid) {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  & .grid:has(.ProductOverview__Item.List) {
+    display: flex;
+    flex-flow: column wrap;
+  }
+}

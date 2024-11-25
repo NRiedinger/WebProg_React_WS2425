@@ -1,0 +1,19 @@
+.NavBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 100%;
+  height: 5em;
+  background-color: lightgrey;
+  border-bottom: 2px solid grey;
+
+  .NavBar__Container__Left,
+  .NavBar__Container__Right {
+    display: flex;
+
+    .NavBar__Item {
+      background-color: darkgrey;
+      margin: 0.5em;
+    }
+  }
+}
