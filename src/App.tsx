@@ -1,14 +1,16 @@
-import "./App.scss";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
+import "./App.scss";
 
+import { Outlet } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
-import ProductOverview from "./components/ProductOverview/ProductOverview";
 
 function App() {
   return (
     <div className="App">
-      <NavBar></NavBar>
-      <ProductOverview />
+      <NavBar />
+      <div className="content">
+        <Outlet />
+      </div>
     </div>
   );
 }
