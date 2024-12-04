@@ -6,6 +6,9 @@ import LoginPage from "./components/LoginPage/LoginPage.tsx";
 import ProductOverviewPage from "./components/ProductOverviewPage/ProductOverviewPage.tsx";
 import SignupPage from "./components/SignupPage/SignupPage.tsx";
 import "./index.scss";
+import { configureStore } from "@reduxjs/toolkit";
+import reducer from "./reducer/reducer.tsx";
+import { Provider } from "react-redux";
 
 const router = createBrowserRouter([
   {
@@ -28,8 +31,13 @@ const router = createBrowserRouter([
   },
 ]);
 
+const store = configureStore({ reducer });
+
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+  /*<StrictMode>*/
+  <Provider store={store}>
     <RouterProvider router={router} />
-  </StrictMode>
+  </Provider>
+
+  /*</StrictMode>*/
 );

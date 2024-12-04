@@ -1,0 +1,25 @@
+[{
+  "_id": {
+    "$oid": "6060b7aa5213cbed3488561d"
+  },
+  "name": "TV",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6060b7bb5213cbed3488561e"
+  },
+  "name": "Handy",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6060b7c25213cbed3488561f"
+  },
+  "name": "Laptop",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6060baea5213cbed34885621"
+  },
+  "name": "Elektronisch",
+  "__v": 0
+}]

@@ -1,0 +1,51 @@
+[{
+  "_id": {
+    "$oid": "5feedfd3c10b79282f1e3d70"
+  },
+  "name": "Küche",
+  "__v": 0,
+  "subcategoryIds": [
+    {
+      "$oid": "6060baea5213cbed34885621"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5feedffdc10b79282f1e3d71"
+  },
+  "name": "Elektronik",
+  "__v": 0,
+  "subcategoryIds": [
+    {
+      "$oid": "6060b7aa5213cbed3488561d"
+    },
+    {
+      "$oid": "6060b7bb5213cbed3488561e"
+    },
+    {
+      "$oid": "6060b7c25213cbed3488561f"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5feee004c10b79282f1e3d72"
+  },
+  "name": "Bad",
+  "__v": 0,
+  "subcategoryIds": [
+    {
+      "$oid": "6060baea5213cbed34885621"
+    }
+  ]
+},{
+  "_id": {
+    "$oid": "5feee075c10b79282f1e3d74"
+  },
+  "name": "Büro",
+  "__v": 0,
+  "subcategoryIds": [
+    {
+      "$oid": "6060baea5213cbed34885621"
+    }
+  ]
+}]

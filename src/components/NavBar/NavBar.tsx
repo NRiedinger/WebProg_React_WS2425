@@ -10,7 +10,6 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const renderLoginStateButtons = () => {
-    console.log(Cookies.get("token"));
     if (!!Cookies.get("token")) {
       return (
         <>
@@ -51,9 +50,7 @@ const NavBar = () => {
         </div>
         <div className="NavBar__Item">Shop</div>
       </div>
-      <div className="NavBar__Container__Right">
-        {renderLoginStateButtons()}
-      </div>
+      <div className="NavBar__Container__Right">{renderLoginStateButtons()}</div>
     </div>
   );
 };
