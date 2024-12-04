@@ -1,8 +1,10 @@
-import "./ProductOverviewItem.scss";
+import { Rating } from "primereact/rating";
 import axios from "../../axiosURL";
 import { IProduct } from "../../interfaces/ProductInterface";
+import "./ProductOverviewItem.scss";
 
 const ProductOverviewItem = ({ product }: { product: IProduct }) => {
+  console.log(product.rating);
   return (
     <>
       <div className="ProductOverviewItem Grid">
@@ -11,7 +13,12 @@ const ProductOverviewItem = ({ product }: { product: IProduct }) => {
         </div>
         <div className="ProductOverviewItem__Info">
           <div className="ProductOverviewItem__Info__Row">{product.name}</div>
-          <div className="ProductOverviewItem__Info__Row">{product.price}€</div>
+          <div className="ProductOverviewItem__Info__Row">
+            <Rating value={product.rating} readOnly cancel={false} />
+          </div>
+          <div className="ProductOverviewItem__Info__Row">
+            {product.price.toFixed(2)}€
+          </div>
         </div>
       </div>
     </>

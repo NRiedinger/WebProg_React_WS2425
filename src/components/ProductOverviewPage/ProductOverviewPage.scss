@@ -1,30 +1,22 @@
-.ProductOverview {
+.ProductOverviewPage {
   width: 60em;
   height: 100%;
+  background-color: rgb(230, 230, 255);
 
   &__Item {
-    background-color: rgb(220, 220, 220);
-
-    &.List {
-      width: 100%;
-      margin: 1em 0;
-    }
-
-    &.Grid {
-      width: 14em;
-      margin: 0.5em;
-      padding: 1em;
-      border-radius: 5px;
-    }
+    background-color: white;
+    width: 14em;
+    margin: 0.5em;
+    padding: 1em;
+    border-radius: 5px;
   }
 
-  & .grid:has(.ProductOverview__Item.Grid) {
+  .grid {
     display: flex;
     flex-flow: row wrap;
   }
 
-  & .grid:has(.ProductOverview__Item.List) {
-    display: flex;
-    flex-flow: column wrap;
+  .p-dataview-content {
+    background: unset;
   }
 }

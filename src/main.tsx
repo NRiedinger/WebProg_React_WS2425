@@ -1,14 +1,13 @@
-import { StrictMode } from "react";
+import { configureStore } from "@reduxjs/toolkit";
 import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App.tsx";
 import LoginPage from "./components/LoginPage/LoginPage.tsx";
 import ProductOverviewPage from "./components/ProductOverviewPage/ProductOverviewPage.tsx";
 import SignupPage from "./components/SignupPage/SignupPage.tsx";
 import "./index.scss";
-import { configureStore } from "@reduxjs/toolkit";
 import reducer from "./reducer/reducer.tsx";
-import { Provider } from "react-redux";
 
 const router = createBrowserRouter([
   {
