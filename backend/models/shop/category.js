@@ -1,13 +1,10 @@
-let mongoose = require('mongoose');
-
+let mongoose = require("mongoose");
 
 let categorySchema = new mongoose.Schema({
-    name:{type:String,required:true},
-    subcategoryIds:[{type:mongoose.Schema.Types.ObjectId,required:false}],
-
+  name: { type: String, required: true },
+  subcategoryIds: [{ type: mongoose.Schema.Types.ObjectId, required: false }],
 });
 
-const categoryModel = mongoose.model('category',categorySchema);
+const categoryModel = mongoose.model("category", categorySchema);
 
 module.exports = categoryModel;
-
