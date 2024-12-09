@@ -3,6 +3,7 @@ import { DataView } from "primereact/dataview";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { IProduct } from "../../interfaces/ProductInterface";
 import { AppState, loadItems } from "../../reducer/reducer";
 import ProductOverviewItem from "../ProductOverviewItem/ProductOverviewItem";
@@ -13,6 +14,7 @@ const ProductOverviewPage = () => {
   const items = useSelector((state: AppState) => state.items);
 
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(loadItems());
@@ -20,7 +22,13 @@ const ProductOverviewPage = () => {
 
   const itemTemplate = (item: IProduct) => {
     return (
-      <div key={item._id} className="ProductOverviewPage__Item Grid">
+      <div
+        key={item._id}
+        onClick={() => {
+          navigate(`/product/${item._id}`);
+        }}
+        className="ProductOverviewPage__Item Grid"
+      >
         <ProductOverviewItem product={item}></ProductOverviewItem>
       </div>
     );

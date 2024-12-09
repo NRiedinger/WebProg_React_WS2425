@@ -4,7 +4,7 @@ import { IProduct } from "../../interfaces/ProductInterface";
 import "./ProductOverviewItem.scss";
 
 const ProductOverviewItem = ({ product }: { product: IProduct }) => {
-  console.log(product.rating);
+  console.log(product);
   return (
     <>
       <div className="ProductOverviewItem Grid">

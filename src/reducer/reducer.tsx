@@ -1,7 +1,7 @@
-import { createAction, createReducer, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 import axios from "../axiosURL";
 
-export const loadItems = createAsyncThunk("shop/loadItems", async (test) => {
+export const loadItems = createAsyncThunk("shop/loadItems", async () => {
   const res = await axios.get("/shop/articles", { withCredentials: true });
   return res.data;
 });
