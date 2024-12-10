@@ -14,9 +14,7 @@ const ProductDetailPage = () => {
     axios
       .get(`/shop/article/${id}`)
       .then((res) => {
-        setTimeout(() => {
-          setProduct(res.data);
-        }, 1000);
+        setProduct(res.data);
       })
       .catch((err) => console.error(err));
   }, []);
@@ -24,7 +22,7 @@ const ProductDetailPage = () => {
   const renderItem = () => {
     if (!product) {
       // Todo: add skeleton
-      return <>Nix</>;
+      return <></>;
     }
 
     return (

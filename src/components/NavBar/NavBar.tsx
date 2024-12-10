@@ -11,10 +11,12 @@ import { useDispatch } from "react-redux";
 import LoginPage from "../LoginPage/LoginPage";
 import SidebarUserContent from "../SidebarUserContent/SidebarUserContent";
 
+import { useNavigate } from "react-router-dom";
 import axios from "../../axiosURL";
 import { setCurrentUser } from "../../reducer/reducer";
 
 const NavBar = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [cartVisible, setCartVisible] = useState<boolean>(false);
   const [userVisible, setUserVisible] = useState<boolean>(false);
@@ -38,18 +40,32 @@ const NavBar = () => {
     }
   }, []);
 
+  const onUserSidebarToggle = (visible: boolean) => {
+    const scrollBarWidth = window.innerWidth - document.body.clientWidth;
+    document.body.style.paddingRight = visible ? scrollBarWidth + "px" : "0";
+    document.body.style.overflow = visible ? "hidden" : "";
+    setUserVisible(visible);
+  };
+
+  const onCartSidebarToggle = (visible: boolean) => {
+    const scrollBarWidth = window.innerWidth - document.body.clientWidth;
+    document.body.style.paddingRight = visible ? scrollBarWidth + "px" : "0";
+    document.body.style.overflow = visible ? "hidden" : "";
+    setCartVisible(visible);
+  };
+
   return (
     <>
       <Sidebar
         visible={cartVisible}
         position="right"
-        onHide={() => setCartVisible(false)}
+        onHide={() => onCartSidebarToggle(false)}
       ></Sidebar>
 
       <Sidebar
         visible={userVisible}
         position="right"
-        onHide={() => setUserVisible(false)}
+        onHide={() => onUserSidebarToggle(false)}
       >
         {isUserLoggedIn ? <SidebarUserContent /> : <LoginPage />}
       </Sidebar>
@@ -57,21 +73,20 @@ const NavBar = () => {
       <div className="NavBar">
         <div className="NavBar__Container__Left">
           <div className="NavBar__Item">
-            <IconContext.Provider value={{ size: "4em" }}>
-              <CiHome />
+            <IconContext.Provider value={{ size: "3em" }}>
+              <CiHome onClick={() => navigate("/")} />
             </IconContext.Provider>
           </div>
-          <div className="NavBar__Item">Shop</div>
         </div>
         <div className="NavBar__Container__Right">
           <div className="NavBar__Item">
-            <IconContext.Provider value={{ size: "2em" }}>
-              <FaUser onClick={() => setUserVisible(true)} />
+            <IconContext.Provider value={{ size: "3em" }}>
+              <FaUser onClick={() => onUserSidebarToggle(true)} />
             </IconContext.Provider>
           </div>
           <div className="NavBar__Item">
-            <IconContext.Provider value={{ size: "2em" }}>
-              <FaShoppingBag onClick={() => setCartVisible(true)} />
+            <IconContext.Provider value={{ size: "3em" }}>
+              <FaShoppingBag onClick={() => onCartSidebarToggle(true)} />
             </IconContext.Provider>
           </div>
         </div>
