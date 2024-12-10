@@ -56,4 +56,29 @@ module.exports = function (app) {
     res.clearCookie("token");
     res.status(200).send("logout successful");
   });
+
+  app.post("/user", async (req, res) => {
+    console.log(req.body);
+    const token = req.body.token || "";
+    let userId;
+
+    try {
+      if (!token) {
+        return res.status(401).json("you need to login");
+      }
+
+      const decrypt = await jwt.verify(token, process.env.TOKEN_SECRET);
+      userId = decrypt.id;
+    } catch (err) {
+      return res.status(500).json(err.toString());
+    }
+
+    const user = await User.findOne({ _id: userId });
+    if (user) {
+      user.password = undefined;
+      res.status(201).send(user);
+    } else {
+      res.status(401).send("user not found!");
+    }
+  });
 };
