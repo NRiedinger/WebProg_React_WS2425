@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js shop"
+    "start": "node app.js shop",
+    "dev": "nodemon app.js shop"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +20,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.9",
+    "nodemon": "^3.1.7",
     "redis": "^3.0.2"
   },
   "devDependencies": {
