@@ -1,14 +1,17 @@
 import { Button } from "primereact/button";
 import { Rating } from "primereact/rating";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import axios from "../../axiosURL";
 import { IProduct } from "../../interfaces/ProductInterface";
+import { addItemToCart } from "../../reducer/reducer";
 import "./ProductDetailPage.scss";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<IProduct>();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios
@@ -18,6 +21,21 @@ const ProductDetailPage = () => {
       })
       .catch((err) => console.error(err));
   }, []);
+
+  const onAddItemToCart = () => {
+    if (!product) {
+      return;
+    }
+    dispatch(
+      addItemToCart({
+        productId: product._id,
+        name: product.name,
+        price: product.price,
+        href: product.href,
+        amount: 1,
+      })
+    );
+  };
 
   const renderItem = () => {
     if (!product) {
@@ -47,7 +65,7 @@ const ProductDetailPage = () => {
                   <h4>noch {product.quantity} verfügbar</h4>
                 </div>
                 <div>
-                  <Button label="In den Warenkorb" />
+                  <Button onClick={onAddItemToCart} label="In den Warenkorb" />
                 </div>
                 <div>{product.shortdescription}</div>
               </div>

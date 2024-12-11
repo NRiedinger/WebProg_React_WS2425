@@ -1,0 +1,17 @@
+.SidebarCartContent__Container {
+  display: flex;
+  flex-direction: column;
+
+  .SidebarCartContent__Item {
+    display: flex;
+    flex-direction: row;
+
+    > * {
+      margin: 0.25em;
+    }
+
+    .SidebarCartContent__Item__Amount input {
+      width: 3em;
+    }
+  }
+}

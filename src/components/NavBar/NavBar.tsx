@@ -14,6 +14,7 @@ import SidebarUserContent from "../SidebarUserContent/SidebarUserContent";
 import { useNavigate } from "react-router-dom";
 import axios from "../../axiosURL";
 import { setCurrentUser } from "../../reducer/reducer";
+import { SidebarCartContent } from "../SidebarCartContent/SidebarCartContent";
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -60,7 +61,9 @@ const NavBar = () => {
         visible={cartVisible}
         position="right"
         onHide={() => onCartSidebarToggle(false)}
-      ></Sidebar>
+      >
+        <SidebarCartContent />
+      </Sidebar>
 
       <Sidebar
         visible={userVisible}

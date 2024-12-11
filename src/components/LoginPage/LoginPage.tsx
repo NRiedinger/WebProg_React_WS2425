@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.scss";
 
-import { useDispatch } from "react-redux";
 import axios from "../../axiosURL";
 
 const LoginPage = () => {
@@ -14,7 +13,6 @@ const LoginPage = () => {
   const [password, setPassword] = useState<string>("passwort");
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const onLogin = () => {
     axios
