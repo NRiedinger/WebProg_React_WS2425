@@ -58,7 +58,6 @@ module.exports = function (app) {
   });
 
   app.post("/user", async (req, res) => {
-    console.log(req.body);
     const token = req.body.token || "";
     let userId;
 

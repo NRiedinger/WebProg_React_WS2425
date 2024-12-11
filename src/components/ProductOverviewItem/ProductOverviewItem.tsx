@@ -6,7 +6,7 @@ import "./ProductOverviewItem.scss";
 const ProductOverviewItem = ({ product }: { product: IProduct }) => {
   return (
     <>
-      <div className="ProductOverviewItem Grid">
+      <div className="ProductOverviewItem">
         <div className="ProductOverviewItem__Image">
           <img src={axios.defaults.baseURL + product.href}></img>
         </div>
