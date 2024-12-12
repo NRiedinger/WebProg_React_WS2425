@@ -9,7 +9,13 @@
 
   .NavBar__Container {
     width: 60em;
-    background-color: var(--main-theme-color);
+    /* background-color: var(--main-theme-color); */
+    background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 1) 0%,
+      var(--main-theme-color) 50%,
+      rgba(0, 0, 0, 1) 100%
+    );
     border-bottom: 2px solid black;
     display: flex;
     justify-content: space-between;
@@ -24,6 +30,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        color: white;
 
         .p-badge {
           position: absolute;

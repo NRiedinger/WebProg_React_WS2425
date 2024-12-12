@@ -1,7 +1,6 @@
 import { ThunkDispatch } from "@reduxjs/toolkit";
 import { DataView } from "primereact/dataview";
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
-import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
