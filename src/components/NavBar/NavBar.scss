@@ -9,7 +9,7 @@
 
   .NavBar__Container {
     width: 60em;
-    /* background-color: var(--main-theme-color); */
+    max-width: 80vw;
     background: linear-gradient(
       to right,
       rgba(0, 0, 0, 1) 0%,

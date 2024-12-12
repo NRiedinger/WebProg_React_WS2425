@@ -14,7 +14,7 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const onLogin = () => {
+  const onLoginClick = () => {
     axios
       .post("/login", { email, password }, { withCredentials: true })
       .then((res) => {
@@ -23,6 +23,11 @@ const LoginPage = () => {
       .catch((err) => {
         console.error(err);
       });
+  };
+
+  const onRegisterClick = () => {
+    navigate("/signup");
+    navigate(0);
   };
 
   return (
@@ -53,7 +58,11 @@ const LoginPage = () => {
         </div>
 
         <div>
-          <Button onClick={onLogin}>Login</Button>
+          <Button onClick={onLoginClick}>Login</Button>
+        </div>
+
+        <div>
+          <Button onClick={onRegisterClick}>Registrieren</Button>
         </div>
       </div>
     </div>
