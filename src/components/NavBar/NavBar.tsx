@@ -15,7 +15,7 @@ import SidebarUserContent from "../SidebarUserContent/SidebarUserContent";
 
 import { useNavigate } from "react-router-dom";
 import axios from "../../axiosURL";
-import { AppState, setCurrentUser } from "../../reducer/reducer";
+import { AppState, loadCart, setCurrentUser } from "../../reducer/reducer";
 import { SidebarCartContent } from "../SidebarCartContent/SidebarCartContent";
 
 const NavBar = () => {
@@ -42,7 +42,16 @@ const NavBar = () => {
           console.error(err);
         });
     }
+
+    const storageCart = localStorage.getItem("cart");
+    if (storageCart) {
+      dispatch(loadCart(JSON.parse(storageCart)));
+    }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const onUserSidebarToggle = (visible: boolean) => {
     document.body.style.overflow = visible ? "hidden" : "";

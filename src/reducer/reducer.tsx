@@ -17,6 +17,7 @@ export const setItems = createAction<IProduct[]>("shop/setItems");
 export const setCurrentUser = createAction<IUser>("shop/setCurrentUser");
 
 export const addItemToCart = createAction<ICartItem>("shop/addItemToCart");
+export const loadCart = createAction<ICartItem[]>("shop/loadCart");
 export const removeItemFromCart = createAction<string>(
   "shop/removeItemFromCart"
 );
@@ -34,6 +35,7 @@ const initialState = {
 } as AppState;
 
 const reducer = createReducer(initialState, (builder) => {
+  // item list
   builder.addCase(loadItems.fulfilled, (state, action) => {
     state.items = action.payload;
   });
@@ -41,10 +43,12 @@ const reducer = createReducer(initialState, (builder) => {
     state.items = action.payload;
   });
 
+  // user
   builder.addCase(setCurrentUser, (state, action) => {
     state.currentUser = action.payload;
   });
 
+  // cart items
   builder.addCase(addItemToCart, (state, action) => {
     const foundItemIndex = state.cartItems.findIndex((item) => {
       return item.productId === action.payload.productId;
@@ -56,7 +60,9 @@ const reducer = createReducer(initialState, (builder) => {
       state.cartItems.push(action.payload);
     }
   });
-
+  builder.addCase(loadCart, (state, action) => {
+    state.cartItems = action.payload;
+  });
   builder.addCase(removeItemFromCart, (state, action) => {
     state.cartItems = state.cartItems.filter((item) => {
       return item.productId !== action.payload;
