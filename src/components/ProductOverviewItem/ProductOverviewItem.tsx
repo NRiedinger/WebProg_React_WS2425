@@ -32,7 +32,7 @@ const ProductOverviewItem = ({ product }: { product: IProduct }) => {
     <>
       <div className="ProductOverviewItem">
         <div className="ProductOverviewItem__Image">
-          <img src={axios.defaults.baseURL + product.href}></img>
+          <img src={axios.defaults.baseURL + product.href} />
         </div>
         <div className="ProductOverviewItem__Info">
           <div className="ProductOverviewItem__Info__Row name">

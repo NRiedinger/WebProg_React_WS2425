@@ -6,8 +6,6 @@
   justify-content: center;
   width: 100vw;
   height: 5em;
-  /* background-color: var(--main-bg-color);
-  border-bottom: 2px solid grey; */
 
   .NavBar__Container {
     width: 60em;
@@ -29,7 +27,7 @@
 
         .p-badge {
           position: absolute;
-          transform: translate(20px, -20px);
+          transform: translate(-18px, -20px);
         }
       }
     }

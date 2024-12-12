@@ -60,6 +60,7 @@ const NavBar = () => {
         visible={cartVisible}
         position="right"
         onHide={() => onCartSidebarToggle(false)}
+        header={<h1>Warenkorb</h1>}
       >
         <SidebarCartContent />
       </Sidebar>
