@@ -86,9 +86,6 @@ const NavBar = () => {
         <div className="NavBar__Container">
           <div className="NavBar__Container__Left">
             <div className="NavBar__Item">
-              {/* <IconContext.Provider value={{ size: "4em" }}>
-                <CiHome onClick={() => navigate("/")} />
-              </IconContext.Provider> */}
               <img onClick={() => navigate("/")} src={logoSvg} />
             </div>
           </div>

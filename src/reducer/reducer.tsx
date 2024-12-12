@@ -55,7 +55,7 @@ const reducer = createReducer(initialState, (builder) => {
     });
 
     if (foundItemIndex > -1) {
-      state.cartItems[foundItemIndex].amount++;
+      state.cartItems[foundItemIndex].amount += action.payload.amount;
     } else {
       state.cartItems.push(action.payload);
     }

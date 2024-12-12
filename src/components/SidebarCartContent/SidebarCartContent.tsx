@@ -18,12 +18,12 @@ export const SidebarCartContent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onAmountChange = (item: ICartItem) => {
+  const onAmountChange = (e: any, item: ICartItem) => {
     if (!item) {
       return;
     }
 
-    dispatch(addItemToCart(item));
+    dispatch(addItemToCart({ ...item, amount: e.value - item.amount }));
   };
 
   const onRemoveItem = (item: ICartItem) => {
@@ -61,7 +61,7 @@ export const SidebarCartContent = () => {
             mode="decimal"
             showButtons
             min={1}
-            onValueChange={() => onAmountChange(item)}
+            onValueChange={(e) => onAmountChange(e, item)}
           />
           <Button severity="danger" onClick={() => onRemoveItem(item)}>
             <IconContext.Provider value={{ size: "1.5em" }}>
