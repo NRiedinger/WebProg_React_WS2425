@@ -4,89 +4,134 @@ import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { ICategory } from "../../interfaces/Category";
 import { IProduct } from "../../interfaces/ProductInterface";
-import { AppState, loadItems, setItems } from "../../reducer/reducer";
+import { ISubcategory } from "../../interfaces/Subcategory";
+import { AppState, loadItemData } from "../../reducer/reducer";
 import ProductOverviewItem from "../ProductOverviewItem/ProductOverviewItem";
 import "./ProductOverviewPage.scss";
 
-enum SortType {
-  PRICE_ASC = 1,
-  PRICE_DESC,
-  RATING_ASC,
-  RATING_DESC,
-}
-
 interface ISortOption {
   label: string;
-  sortType: SortType;
+  value: string;
 }
 
-const ProductOverviewPage = () => {
-  let items: IProduct[] = useSelector((state: AppState) => {
-    return state.items;
-  });
-  const [sortOption, setSortOption] = useState<ISortOption | null>(null);
+const sortOptions: ISortOption[] = [
+  { label: "Preis absteigend", value: "!price" },
+  { label: "Preis aufsteigend", value: "price" },
+  { label: "Bewertung absteigend", value: "!rating" },
+  { label: "Bewertung aufsteigend", value: "rating" },
+];
 
+const ProductOverviewPage = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const navigate = useNavigate();
 
-  const sortOptions: ISortOption[] = [
-    {
-      label: "Niedrigster Preis",
-      sortType: SortType.PRICE_ASC,
-    },
-    {
-      label: "Höchster Preis",
-      sortType: SortType.PRICE_DESC,
-    },
-    {
-      label: "Niedrigste Bewertung",
-      sortType: SortType.RATING_ASC,
-    },
-    {
-      label: "Höchste Bewertung",
-      sortType: SortType.RATING_DESC,
-    },
-  ];
-
-  const onSortOptionChange = (e: DropdownChangeEvent) => {
-    setSortOption(e.value);
-    const itemArray = [...items];
-    const sortType = e.value.sortType;
-    switch (sortType) {
-      case SortType.PRICE_ASC: {
-        itemArray.sort((a: IProduct, b: IProduct) => {
-          return a.price - b.price;
-        });
-        break;
-      }
-      case SortType.PRICE_DESC: {
-        itemArray.sort((a: IProduct, b: IProduct) => {
-          return b.price - a.price;
-        });
-        break;
-      }
-      case SortType.RATING_ASC: {
-        itemArray.sort((a: IProduct, b: IProduct) => {
-          return a.rating - b.rating;
-        });
-        break;
-      }
-      case SortType.RATING_DESC: {
-        itemArray.sort((a: IProduct, b: IProduct) => {
-          return b.rating - a.rating;
-        });
-        break;
-      }
-      default:
-        break;
+  const { items, categories, subcategories } = useSelector(
+    (state: AppState) => {
+      return {
+        items: state.items,
+        categories: state.categories,
+        subcategories: state.subcategories,
+      };
     }
-    dispatch(setItems(itemArray));
-  };
+  );
+
+  const [sortKey, setSortKey] = useState<string>("");
+  const [sortOrder, setSortOrder] = useState<1 | 0 | -1 | undefined | null>(0);
+  const [sortField, setSortField] = useState<string>("");
+
+  const [filteredItems, setFilteredItems] = useState<IProduct[]>();
+  const [allItems, setAllItems] = useState<IProduct[]>();
+  const [selectedCategoryOptionName, setSelectedCategoryOptionName] = useState<
+    string | undefined
+  >();
+  const [selectedSubcategoryOptionName, setSelectedSubcategoryOptionName] =
+    useState<string | undefined>();
+  const [subcategoryOptions, setSubcategoryOptions] =
+    useState<ISubcategory[]>(subcategories);
 
   useEffect(() => {
-    dispatch(loadItems());
+    dispatch(loadItemData());
   }, []);
+
+  useEffect(() => {
+    setFilteredItems(items);
+  }, [items]);
+
+  useEffect(() => {
+    setAllItems(items);
+  }, [items]);
+
+  useEffect(() => {});
+
+  const onSortOptionChange = (e: DropdownChangeEvent) => {
+    const value = e.value;
+
+    if (value.indexOf("!") === 0) {
+      setSortOrder(-1);
+      setSortField(value.substring(1, value.length));
+      setSortKey(value);
+    } else {
+      setSortOrder(1);
+      setSortField(value);
+      setSortKey(value);
+    }
+  };
+
+  const onCategoryOptionChange = (e: DropdownChangeEvent) => {
+    const category: ICategory | undefined = categories.find(
+      (category) => category.name === e.value
+    );
+    setSelectedCategoryOptionName(category?.name);
+    setSelectedSubcategoryOptionName(undefined);
+
+    if (category) {
+      const filtered = items.filter(
+        (item: IProduct) => item.categoryId === category._id
+      );
+      setFilteredItems(filtered);
+    } else {
+      setFilteredItems(allItems);
+    }
+
+    // filter subcategories depending on selected category
+    if (category) {
+      const filtered = subcategories.filter((subcategory: ISubcategory) => {
+        return category.subcategoryIds.includes(subcategory._id);
+      });
+      setSubcategoryOptions(filtered);
+    }
+  };
+
+  const onSubcategoryOptionChange = (e: DropdownChangeEvent) => {
+    const category: ICategory | undefined = categories.find(
+      (category) => category.name === selectedCategoryOptionName
+    );
+
+    const subcategory: ISubcategory | undefined = subcategories.find(
+      (subcategory) => subcategory.name === e.value
+    );
+    setSelectedSubcategoryOptionName(subcategory?.name);
+
+    if (category && subcategory) {
+      setFilteredItems(
+        items.filter(
+          (item) =>
+            item.categoryId === category._id &&
+            item.subcategoryId === subcategory._id
+        )
+      );
+    } else {
+      setFilteredItems(
+        items.filter((item) => item.categoryId === category?._id)
+      );
+    }
+
+    if (!subcategory) {
+      setSubcategoryOptions(subcategories);
+    }
+  };
 
   const itemTemplate = (item: IProduct) => {
     return (
@@ -102,10 +147,10 @@ const ProductOverviewPage = () => {
     );
   };
 
-  const listTemplate = (items: IProduct[]) => {
-    if (!items || items.length === 0) return null;
+  const listTemplate = (itemList: IProduct[]) => {
+    if (!itemList || itemList.length === 0) return null;
 
-    const list = items.map((item) => {
+    const list = itemList.map((item) => {
       return itemTemplate(item);
     });
 
@@ -115,20 +160,42 @@ const ProductOverviewPage = () => {
   return (
     <div className="ProductOverviewPage">
       <div className="ProductOverviewPage__Toolbar">
-        {
+        <Dropdown
+          value={sortKey}
+          options={sortOptions}
+          optionLabel="label"
+          onChange={(e: DropdownChangeEvent) => onSortOptionChange(e)}
+          placeholder="Sortieren"
+        />
+
+        <Dropdown
+          value={selectedCategoryOptionName}
+          options={categories}
+          optionLabel="name"
+          optionValue="name"
+          onChange={(e: DropdownChangeEvent) => onCategoryOptionChange(e)}
+          placeholder="Kategorie auswählen"
+          showClear
+        />
+
+        {selectedCategoryOptionName ? (
           <Dropdown
-            value={sortOption}
-            options={sortOptions}
-            optionLabel="label"
-            onChange={(e: DropdownChangeEvent) => onSortOptionChange(e)}
-            placeholder="Sortieren"
+            value={selectedSubcategoryOptionName}
+            options={subcategoryOptions}
+            optionLabel="name"
+            optionValue="name"
+            onChange={(e: DropdownChangeEvent) => onSubcategoryOptionChange(e)}
+            placeholder="Unterkategorie auswählen"
+            showClear
           />
-        }
+        ) : null}
       </div>
       <DataView
-        value={items}
+        value={filteredItems}
         layout="grid"
         listTemplate={listTemplate}
+        sortField={sortField}
+        sortOrder={sortOrder}
       ></DataView>
     </div>
   );

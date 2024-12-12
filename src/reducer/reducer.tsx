@@ -5,17 +5,34 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "../axiosURL";
 import { ICartItem } from "../interfaces/CartItemInterface";
+import { ICategory } from "../interfaces/Category";
 import { IProduct } from "../interfaces/ProductInterface";
+import { ISubcategory } from "../interfaces/Subcategory";
 import { IUser } from "../interfaces/UserInterface";
 
-export const loadItems = createAsyncThunk("shop/loadItems", async () => {
-  const res = await axios.get("/shop/articles", { withCredentials: true });
-  return res.data;
+// Items, Categories, Subcategories
+export const loadItemData = createAsyncThunk("shop/loadItemData", async () => {
+  const [itemsResponse, categoriesResponse, subcategoriesResponse] =
+    await Promise.all([
+      axios.get("/shop/articles", { withCredentials: false }),
+      axios.get("/shop/categories", { withCredentials: false }),
+      axios.get("/shop/subcategories", { withCredentials: false }),
+    ]);
+  const items = itemsResponse.data;
+  const categories = categoriesResponse.data;
+  const subcategories = subcategoriesResponse.data;
+  return {
+    items,
+    categories,
+    subcategories,
+  };
 });
 export const setItems = createAction<IProduct[]>("shop/setItems");
 
+// User
 export const setCurrentUser = createAction<IUser>("shop/setCurrentUser");
 
+// Cart
 export const addItemToCart = createAction<ICartItem>("shop/addItemToCart");
 export const loadCart = createAction<ICartItem[]>("shop/loadCart");
 export const removeItemFromCart = createAction<string>(
@@ -26,18 +43,24 @@ export interface AppState {
   currentUser: IUser | null;
   items: IProduct[];
   cartItems: ICartItem[];
+  categories: ICategory[];
+  subcategories: ISubcategory[];
 }
 
 const initialState = {
   currentUser: null,
   items: [],
   cartItems: [],
+  categories: [],
+  subcategories: [],
 } as AppState;
 
 const reducer = createReducer(initialState, (builder) => {
   // item list
-  builder.addCase(loadItems.fulfilled, (state, action) => {
-    state.items = action.payload;
+  builder.addCase(loadItemData.fulfilled, (state, action) => {
+    state.items = action.payload.items;
+    state.categories = action.payload.categories;
+    state.subcategories = action.payload.subcategories;
   });
   builder.addCase(setItems, (state, action) => {
     state.items = action.payload;

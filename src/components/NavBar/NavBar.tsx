@@ -86,7 +86,13 @@ const NavBar = () => {
         <div className="NavBar__Container">
           <div className="NavBar__Container__Left">
             <div className="NavBar__Item">
-              <img onClick={() => navigate("/")} src={logoSvg} />
+              <img
+                onClick={() => {
+                  navigate("/products");
+                  navigate(0);
+                }}
+                src={logoSvg}
+              />
             </div>
           </div>
           <div className="NavBar__Container__Right">
