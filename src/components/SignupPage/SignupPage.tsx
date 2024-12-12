@@ -37,7 +37,6 @@ const SignupPage = () => {
         { withCredentials: true }
       )
       .then((res) => {
-        console.log(res);
         navigate("/");
       })
       .catch((err) => {

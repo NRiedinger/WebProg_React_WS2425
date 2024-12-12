@@ -12,6 +12,7 @@ export const loadItems = createAsyncThunk("shop/loadItems", async () => {
   const res = await axios.get("/shop/articles", { withCredentials: true });
   return res.data;
 });
+export const setItems = createAction<IProduct[]>("shop/setItems");
 
 export const setCurrentUser = createAction<IUser>("shop/setCurrentUser");
 
@@ -36,6 +37,9 @@ const reducer = createReducer(initialState, (builder) => {
   builder.addCase(loadItems.fulfilled, (state, action) => {
     state.items = action.payload;
   });
+  builder.addCase(setItems, (state, action) => {
+    state.items = action.payload;
+  });
 
   builder.addCase(setCurrentUser, (state, action) => {
     state.currentUser = action.payload;
@@ -47,7 +51,7 @@ const reducer = createReducer(initialState, (builder) => {
     });
 
     if (foundItemIndex > -1) {
-      state.cartItems[foundItemIndex].amount = action.payload.amount;
+      state.cartItems[foundItemIndex].amount++;
     } else {
       state.cartItems.push(action.payload);
     }

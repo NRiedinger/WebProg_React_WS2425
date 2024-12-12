@@ -37,6 +37,20 @@ const ProductDetailPage = () => {
     );
   };
 
+  const renderStockAmountText = () => {
+    if (!product) {
+      return;
+    }
+
+    if (product.quantity <= 5) {
+      return (
+        <span className="stock-low">Nur noch {product.quantity} verfügbar</span>
+      );
+    }
+
+    return <span className="stock-normal">Auf Lager</span>;
+  };
+
   const renderItem = () => {
     if (!product) {
       // Todo: add skeleton
@@ -58,16 +72,14 @@ const ProductDetailPage = () => {
                 <div>
                   <h1>{product.name}</h1>
                 </div>
+                <div>{product.shortdescription}</div>
                 <div>
                   <h2>{product.price.toFixed(2)}€</h2>
                 </div>
-                <div>
-                  <h4>noch {product.quantity} verfügbar</h4>
-                </div>
+                <div>{renderStockAmountText()}</div>
                 <div>
                   <Button onClick={onAddItemToCart} label="In den Warenkorb" />
                 </div>
-                <div>{product.shortdescription}</div>
               </div>
             </div>
             <div className="ProductDetailPage__Container__Row Description">

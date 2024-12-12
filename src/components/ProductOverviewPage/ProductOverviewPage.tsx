@@ -6,18 +6,27 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IProduct } from "../../interfaces/ProductInterface";
-import { AppState, loadItems } from "../../reducer/reducer";
+import { AppState, loadItems, setItems } from "../../reducer/reducer";
 import ProductOverviewItem from "../ProductOverviewItem/ProductOverviewItem";
 import "./ProductOverviewPage.scss";
 
+enum SortType {
+  PRICE_ASC = 1,
+  PRICE_DESC,
+  RATING_ASC,
+  RATING_DESC,
+}
+
 interface ISortOption {
   label: string;
-  compareFn: (a: IProduct, b: IProduct) => number;
+  sortType: SortType;
 }
 
 const ProductOverviewPage = () => {
-  const items: IProduct[] = useSelector((state: AppState) => state.items);
-  const [sortOption, setSortOption] = useState<ISortOption | null>();
+  let items: IProduct[] = useSelector((state: AppState) => {
+    return state.items;
+  });
+  const [sortOption, setSortOption] = useState<ISortOption | null>(null);
 
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const navigate = useNavigate();
@@ -25,21 +34,55 @@ const ProductOverviewPage = () => {
   const sortOptions: ISortOption[] = [
     {
       label: "Niedrigster Preis",
-      compareFn: (a: IProduct, b: IProduct) => {
-        return a.price - b.price;
-      },
+      sortType: SortType.PRICE_ASC,
     },
     {
       label: "Höchster Preis",
-      compareFn: (a: IProduct, b: IProduct) => {
-        return b.price - a.price;
-      },
+      sortType: SortType.PRICE_DESC,
+    },
+    {
+      label: "Niedrigste Bewertung",
+      sortType: SortType.RATING_ASC,
+    },
+    {
+      label: "Höchste Bewertung",
+      sortType: SortType.RATING_DESC,
     },
   ];
 
   const onSortOptionChange = (e: DropdownChangeEvent) => {
-    console.log(e.value);
     setSortOption(e.value);
+    const itemArray = [...items];
+    const sortType = e.value.sortType;
+    switch (sortType) {
+      case SortType.PRICE_ASC: {
+        itemArray.sort((a: IProduct, b: IProduct) => {
+          return a.price - b.price;
+        });
+        break;
+      }
+      case SortType.PRICE_DESC: {
+        itemArray.sort((a: IProduct, b: IProduct) => {
+          return b.price - a.price;
+        });
+        break;
+      }
+      case SortType.RATING_ASC: {
+        itemArray.sort((a: IProduct, b: IProduct) => {
+          return a.rating - b.rating;
+        });
+        break;
+      }
+      case SortType.RATING_DESC: {
+        itemArray.sort((a: IProduct, b: IProduct) => {
+          return b.rating - a.rating;
+        });
+        break;
+      }
+      default:
+        break;
+    }
+    dispatch(setItems(itemArray));
   };
 
   useEffect(() => {
@@ -73,12 +116,15 @@ const ProductOverviewPage = () => {
   return (
     <div className="ProductOverviewPage">
       <div className="ProductOverviewPage__Toolbar">
-        <Dropdown
-          value={sortOption}
-          options={sortOptions}
-          optionLabel="label"
-          onChange={(e) => setSortOption(e.value)}
-        />
+        {
+          <Dropdown
+            value={sortOption}
+            options={sortOptions}
+            optionLabel="label"
+            onChange={(e: DropdownChangeEvent) => onSortOptionChange(e)}
+            placeholder="Sortieren"
+          />
+        }
       </div>
       <DataView
         value={items}

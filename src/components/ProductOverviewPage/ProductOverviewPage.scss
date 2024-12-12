@@ -1,12 +1,15 @@
 .ProductOverviewPage {
   width: 100%;
   height: 100%;
-  background-color: rgb(230, 230, 255);
+  background-color: var(--main-bg-color);
 
   .ProductOverviewPage__Toolbar {
-    background-color: red;
     width: 100%;
-    height: 100px;
+    padding: 0.5em;
+
+    .p-dropdown {
+      width: 15em;
+    }
   }
 
   &__ItemWrapper {
@@ -15,7 +18,6 @@
     align-items: center;
     width: 25%;
     border-radius: 5px;
-    cursor: pointer;
     height: 25em;
   }
 

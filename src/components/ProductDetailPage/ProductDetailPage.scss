@@ -1,13 +1,27 @@
+#root:has(.ProductDetailPage) {
+  height: 100%;
+}
+
 .ProductDetailPage {
   width: 100%;
+  height: 100%;
+  background-color: var(--main-bg-color);
 
   &__Container {
     display: flex;
     flex-direction: column;
 
+    .ProductDetailPage__Container__Row {
+      padding: 2em;
+    }
+
     .Overview {
       display: flex;
       flex-direction: row;
+
+      & > * {
+        margin: 0 1em;
+      }
 
       & .ProductDetailPage__Container__Row__Image {
         width: 50%;
@@ -21,11 +35,24 @@
         width: 50%;
         display: flex;
         flex-direction: column;
-        padding: 2em;
+
+        > * {
+          margin: 0.25em 0;
+        }
+
+        .stock-low {
+          color: red;
+        }
+
+        .stock-normal {
+          color: green;
+        }
       }
     }
 
     .Description {
+      padding-top: unset;
+      padding-bottom: unset;
     }
   }
 }
