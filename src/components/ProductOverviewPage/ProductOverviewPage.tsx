@@ -157,45 +157,50 @@ const ProductOverviewPage = () => {
     return <div className="grid grid-nogutter">{list}</div>;
   };
 
-  return (
-    <div className="ProductOverviewPage">
-      <div className="ProductOverviewPage__Toolbar">
-        <Dropdown
-          value={sortKey}
-          options={sortOptions}
-          optionLabel="label"
-          onChange={(e: DropdownChangeEvent) => onSortOptionChange(e)}
-          placeholder="Sortieren"
-        />
+  const header = (
+    <div className="ProductOverviewPage__Toolbar">
+      <Dropdown
+        value={sortKey}
+        options={sortOptions}
+        optionLabel="label"
+        onChange={(e: DropdownChangeEvent) => onSortOptionChange(e)}
+        placeholder="Sortieren"
+      />
 
+      <Dropdown
+        value={selectedCategoryOptionName}
+        options={categories}
+        optionLabel="name"
+        optionValue="name"
+        onChange={(e: DropdownChangeEvent) => onCategoryOptionChange(e)}
+        placeholder="Kategorie auswählen"
+        showClear
+      />
+
+      {selectedCategoryOptionName ? (
         <Dropdown
-          value={selectedCategoryOptionName}
-          options={categories}
+          value={selectedSubcategoryOptionName}
+          options={subcategoryOptions}
           optionLabel="name"
           optionValue="name"
-          onChange={(e: DropdownChangeEvent) => onCategoryOptionChange(e)}
-          placeholder="Kategorie auswählen"
+          onChange={(e: DropdownChangeEvent) => onSubcategoryOptionChange(e)}
+          placeholder="Unterkategorie auswählen"
           showClear
         />
+      ) : null}
+    </div>
+  );
 
-        {selectedCategoryOptionName ? (
-          <Dropdown
-            value={selectedSubcategoryOptionName}
-            options={subcategoryOptions}
-            optionLabel="name"
-            optionValue="name"
-            onChange={(e: DropdownChangeEvent) => onSubcategoryOptionChange(e)}
-            placeholder="Unterkategorie auswählen"
-            showClear
-          />
-        ) : null}
-      </div>
+  return (
+    <div className="ProductOverviewPage">
+      <div className="ProductOverviewPage__Toolbar"></div>
       <DataView
         value={filteredItems}
         layout="grid"
         listTemplate={listTemplate}
         sortField={sortField}
         sortOrder={sortOrder}
+        header={header}
       ></DataView>
     </div>
   );

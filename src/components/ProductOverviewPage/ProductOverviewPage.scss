@@ -5,10 +5,13 @@
 
   .ProductOverviewPage__Toolbar {
     width: 100%;
-    padding: 0.5em;
 
     .p-dropdown {
-      width: 15em;
+      width: 12em;
+    }
+
+    & > * {
+      margin-right: 0.75em;
     }
   }
 
