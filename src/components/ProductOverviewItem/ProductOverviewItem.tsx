@@ -10,7 +10,6 @@ import "./ProductOverviewItem.scss";
 const ProductOverviewItem = ({ product }: { product: IProduct }) => {
   const dispatch = useDispatch();
   const onAddItemToCart = (e: React.MouseEvent) => {
-    console.log(typeof e);
     if (!product) {
       return;
     }

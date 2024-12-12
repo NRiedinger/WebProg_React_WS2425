@@ -8,6 +8,8 @@
   border-radius: 10px;
   cursor: pointer;
   position: relative;
+  -webkit-box-shadow: 4px 4px 13px 0px #000000;
+  box-shadow: 4px 4px 13px 0px #000000;
 
   /* &:hover {
     outline: 5px solid white;
@@ -32,6 +34,12 @@
 
       &.price {
         font-size: 24px;
+      }
+
+      &.rating {
+        .p-rating-item-active .p-rating-icon {
+          color: #f0bb00;
+        }
       }
     }
   }
