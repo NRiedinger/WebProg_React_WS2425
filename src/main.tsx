@@ -7,7 +7,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import App from "./App.tsx";
+import CheckoutPage from "./components/CheckoutPage/CheckoutPage.tsx";
 import LoginPage from "./components/LoginPage/LoginPage.tsx";
+import OrderOverviewPage from "./components/OrderOverviewPage/OrderOverviewPage.tsx";
 import ProductDetailPage from "./components/ProductDetailPage/ProductDetailPage.tsx";
 import ProductOverviewPage from "./components/ProductOverviewPage/ProductOverviewPage.tsx";
 import SignupPage from "./components/SignupPage/SignupPage.tsx";
@@ -38,6 +40,14 @@ const router = createBrowserRouter([
       {
         path: "/product/:id",
         element: <ProductDetailPage />,
+      },
+      {
+        path: "/orders",
+        element: <OrderOverviewPage />,
+      },
+      {
+        path: "/checkout",
+        element: <CheckoutPage />,
       },
     ],
   },

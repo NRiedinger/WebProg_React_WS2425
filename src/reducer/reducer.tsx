@@ -6,6 +6,7 @@ import {
 import axios from "../axiosURL";
 import { ICartItem } from "../interfaces/CartItemInterface";
 import { ICategory } from "../interfaces/Category";
+import { IOrder } from "../interfaces/OrderInterface";
 import { IProduct } from "../interfaces/ProductInterface";
 import { ISubcategory } from "../interfaces/Subcategory";
 import { IUser } from "../interfaces/UserInterface";
@@ -39,12 +40,19 @@ export const removeItemFromCart = createAction<string>(
   "shop/removeItemFromCart"
 );
 
+// Orders
+export const loadOrders = createAsyncThunk("shop/orders", async () => {
+  const res = await axios.get("/shop/orders", { withCredentials: true });
+  return res.data;
+});
+
 export interface AppState {
   currentUser: IUser | null;
   items: IProduct[];
   cartItems: ICartItem[];
   categories: ICategory[];
   subcategories: ISubcategory[];
+  orders: IOrder[];
 }
 
 const initialState = {
@@ -53,6 +61,7 @@ const initialState = {
   cartItems: [],
   categories: [],
   subcategories: [],
+  orders: [],
 } as AppState;
 
 const reducer = createReducer(initialState, (builder) => {
@@ -90,6 +99,11 @@ const reducer = createReducer(initialState, (builder) => {
     state.cartItems = state.cartItems.filter((item) => {
       return item.productId !== action.payload;
     });
+  });
+
+  // orders
+  builder.addCase(loadOrders.fulfilled, (state, action) => {
+    state.orders = action.payload;
   });
 });
 export default reducer;

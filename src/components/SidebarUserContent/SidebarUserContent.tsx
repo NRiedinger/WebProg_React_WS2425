@@ -11,10 +11,15 @@ const SidebarUserContent = () => {
 
   return (
     <div className="SidebarUserContent">
-      <div>
-        Name: {currentUser?.firstname} {currentUser?.lastname}
-      </div>
-      <div>
+      <div className="SidebarUserContent__Container">
+        <Button
+          onClick={() => {
+            navigate("/orders");
+          }}
+        >
+          Bestellungen
+        </Button>
+
         <Button
           onClick={() => {
             Cookies.remove("token");

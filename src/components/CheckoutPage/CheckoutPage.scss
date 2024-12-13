@@ -1,0 +1,29 @@
+.CheckoutPage {
+  .CheckoutPage__Container {
+    display: flex;
+    flex-direction: column;
+
+    .CheckoutPage__Container__Item {
+      display: flex;
+      flex-direction: row;
+      height: 5em;
+
+      > * {
+        margin: 0.5em;
+      }
+
+      .CheckoutPage__Container__Item__Name {
+        flex-grow: 1;
+      }
+
+      img {
+        height: 100%;
+      }
+
+      .p-badge {
+        position: absolute;
+        transform: translate(-10px, -10px);
+      }
+    }
+  }
+}

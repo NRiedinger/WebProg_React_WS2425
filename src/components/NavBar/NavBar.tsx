@@ -8,7 +8,7 @@ import { FaRegUser } from "react-icons/fa6";
 import { RiShoppingBag4Line } from "react-icons/ri";
 
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LoginPage from "../LoginPage/LoginPage";
 import SidebarUserContent from "../SidebarUserContent/SidebarUserContent";
@@ -24,8 +24,11 @@ const NavBar = () => {
   const [cartVisible, setCartVisible] = useState<boolean>(false);
   const [userVisible, setUserVisible] = useState<boolean>(false);
   const cartItems = useSelector((state: AppState) => state.cartItems);
+  const currentUser = useSelector((state: AppState) => state.currentUser);
 
   const isUserLoggedIn = !!Cookies.get("token");
+
+  const sidebarCartRef = useRef(null);
 
   useEffect(() => {
     if (isUserLoggedIn) {
@@ -53,14 +56,14 @@ const NavBar = () => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const onUserSidebarToggle = (visible: boolean) => {
+  const onUserSidebarToggle = (visible: boolean = !userVisible) => {
     document.body.style.overflow = visible ? "hidden" : "";
-    setUserVisible(visible);
+    setUserVisible(!userVisible);
   };
 
-  const onCartSidebarToggle = (visible: boolean) => {
+  const onCartSidebarToggle = (visible: boolean = !cartVisible) => {
     document.body.style.overflow = visible ? "hidden" : "";
-    setCartVisible(visible);
+    setCartVisible(!cartVisible);
   };
 
   return (
@@ -70,6 +73,7 @@ const NavBar = () => {
         position="right"
         onHide={() => onCartSidebarToggle(false)}
         header={<h1>Warenkorb</h1>}
+        ref={sidebarCartRef}
       >
         <SidebarCartContent />
       </Sidebar>
@@ -78,6 +82,11 @@ const NavBar = () => {
         visible={userVisible}
         position="right"
         onHide={() => onUserSidebarToggle(false)}
+        header={
+          <h1>
+            {currentUser?.firstname} {currentUser?.lastname}
+          </h1>
+        }
       >
         {isUserLoggedIn ? <SidebarUserContent /> : <LoginPage />}
       </Sidebar>
@@ -96,17 +105,22 @@ const NavBar = () => {
             </div>
           </div>
           <div className="NavBar__Container__Right">
-            <div className="NavBar__Item">
+            <div
+              className="NavBar__Item"
+              id="user-sidebar-button"
+              onClick={() => onUserSidebarToggle()}
+            >
               <IconContext.Provider value={{ size: "3em" }}>
-                <FaRegUser onClick={() => onUserSidebarToggle(true)} />
+                <FaRegUser />
               </IconContext.Provider>
             </div>
-            <div className="NavBar__Item">
+            <div
+              className="NavBar__Item"
+              id="cart-sidebar-button"
+              onClick={() => onCartSidebarToggle()}
+            >
               <IconContext.Provider value={{ size: "3em" }}>
-                <RiShoppingBag4Line
-                  className="p-overlay-badge"
-                  onClick={() => onCartSidebarToggle(true)}
-                />
+                <RiShoppingBag4Line className="p-overlay-badge" />
                 {cartItems.length > 0 ? (
                   <Badge
                     value={cartItems
