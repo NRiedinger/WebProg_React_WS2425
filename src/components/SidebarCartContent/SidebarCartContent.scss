@@ -8,10 +8,6 @@
   flex-direction: column;
   justify-content: space-between;
 
-  .SidebarCartContent__Button {
-    margin: 1em 2em;
-  }
-
   .SidebarCartContent__Container {
     display: flex;
     flex-direction: column;
@@ -62,6 +58,15 @@
         flex-grow: 1;
         justify-content: flex-start;
       }
+    }
+  }
+
+  .SidebarCartContent__Footer {
+    display: flex;
+    flex-direction: column;
+
+    .SidebarCartContent__Button {
+      margin: 1em 2em;
     }
   }
 }

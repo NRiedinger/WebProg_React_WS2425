@@ -1,28 +1,85 @@
 .CheckoutPage {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
   .CheckoutPage__Container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-grow: 1;
+    height: 100%;
+
+    > * {
+      flex-grow: 1;
+      padding: 1em;
+    }
+
+    > .CheckoutPage__Container__Left {
+      display: flex;
+      flex-direction: column;
+
+      > * {
+        margin: 0.5em 0.5em;
+      }
+      .CheckoutPage__Container__Left__Address {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    > .CheckoutPage__Container__Right {
+      display: flex;
+      flex-direction: column;
+      max-height: 100%;
+
+      .CheckoutPage__Container__Right__Content {
+        overflow-y: auto;
+      }
+
+      .CheckoutPage__Container__Right__Footer {
+        display: flex;
+        flex-direction: column;
+
+        .CheckoutPage__Container__Right__Footer__Row {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        }
+      }
+    }
 
     .CheckoutPage__Container__Item {
       display: flex;
       flex-direction: row;
-      height: 5em;
+      height: 4em;
+      margin: 1em 0;
 
       > * {
-        margin: 0.5em;
+        margin-left: 1em;
+      }
+
+      .CheckoutPage__Container__Item__Price {
+        font-size: 24px;
+        font-weight: bold;
       }
 
       .CheckoutPage__Container__Item__Name {
         flex-grow: 1;
+        font-size: 24px;
+        font-weight: bold;
       }
 
-      img {
-        height: 100%;
-      }
+      .CheckoutPage__Container__Item__Image {
+        position: relative;
 
-      .p-badge {
-        position: absolute;
-        transform: translate(-10px, -10px);
+        img {
+          height: 100%;
+        }
+
+        .p-badge {
+          position: absolute;
+          transform: translate(-10px, -10px);
+        }
       }
     }
   }

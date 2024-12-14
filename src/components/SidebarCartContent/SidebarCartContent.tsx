@@ -32,6 +32,12 @@ export const SidebarCartContent = () => {
     dispatch(removeItemFromCart(item.productId));
   };
 
+  const getSumItemPrice = () => {
+    return cartItems
+      .map((item) => item.price * item.amount)
+      .reduce((a, b) => a + b, 0);
+  };
+
   const renderedEmptyCartInfo = (
     <div className="SidebarCartContent__Container__EmptyInfo">
       <span>Dein Warenkorb ist leer.</span>
@@ -85,14 +91,12 @@ export const SidebarCartContent = () => {
         {cartItems.length > 0 ? renderedCartItems : renderedEmptyCartInfo}
       </div>
 
-      {cartItems.length > 0 ? (
+      <div className="SidebarCartContent__Footer">
         <Button
           className="SidebarCartContent__Button"
-          label={`Zur Kasse - ${cartItems
-            .map((item) => item.amount * item.price)
-            .reduce((a, b) => a + b, 0)
-            .toFixed(2)}€`}
+          label={`Zur Kasse - ${getSumItemPrice().toFixed(2)}€`}
           rounded
+          disabled={cartItems?.length === 0}
           onClick={() => {
             const isUserLoggedIn = !!Cookies.get("token");
             if (isUserLoggedIn) {
@@ -104,7 +108,7 @@ export const SidebarCartContent = () => {
             }
           }}
         />
-      ) : null}
+      </div>
     </div>
   );
 };
