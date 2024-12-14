@@ -27,15 +27,9 @@ const ProductOverviewPage = () => {
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
   const navigate = useNavigate();
 
-  const { items, categories, subcategories } = useSelector(
-    (state: AppState) => {
-      return {
-        items: state.items,
-        categories: state.categories,
-        subcategories: state.subcategories,
-      };
-    }
-  );
+  const items = useSelector((state: AppState) => state.items);
+  const categories = useSelector((state: AppState) => state.categories);
+  const subcategories = useSelector((state: AppState) => state.subcategories);
 
   const [sortKey, setSortKey] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<1 | 0 | -1 | undefined | null>(0);
@@ -57,13 +51,8 @@ const ProductOverviewPage = () => {
 
   useEffect(() => {
     setFilteredItems(items);
-  }, [items]);
-
-  useEffect(() => {
     setAllItems(items);
   }, [items]);
-
-  useEffect(() => {});
 
   const onSortOptionChange = (e: DropdownChangeEvent) => {
     const value = e.value;
