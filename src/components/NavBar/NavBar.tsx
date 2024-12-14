@@ -34,7 +34,7 @@ const NavBar = () => {
     if (isUserLoggedIn) {
       axios
         .post(
-          "/user",
+          "/getUser",
           { token: Cookies.get("token") },
           { withCredentials: true }
         )
@@ -84,7 +84,9 @@ const NavBar = () => {
         onHide={() => onUserSidebarToggle(false)}
         header={
           <h1>
-            {currentUser?.firstname} {currentUser?.lastname}
+            {isUserLoggedIn
+              ? `${currentUser?.firstname} ${currentUser?.lastname}`
+              : "Anmelden"}
           </h1>
         }
       >

@@ -72,7 +72,7 @@ export const SidebarCartContent = () => {
               min={1}
               onValueChange={(e) => onAmountChange(e, item)}
             />
-            <Button severity="danger" onClick={() => onRemoveItem(item)}>
+            <Button raised severity="danger" onClick={() => onRemoveItem(item)}>
               <IconContext.Provider value={{ size: "1.5em" }}>
                 <FaRegTrashAlt></FaRegTrashAlt>
               </IconContext.Provider>

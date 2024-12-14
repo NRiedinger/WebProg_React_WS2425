@@ -57,7 +57,7 @@ module.exports = function (app) {
     res.status(200).send("logout successful");
   });
 
-  app.post("/user", async (req, res) => {
+  app.post("/getUser", async (req, res) => {
     const token = req.body.token || "";
     let userId;
 

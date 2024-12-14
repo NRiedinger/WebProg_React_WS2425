@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.scss";
 
+import { Divider } from "primereact/divider";
 import axios from "../../axiosURL";
 
 const LoginPage = () => {
@@ -33,37 +34,36 @@ const LoginPage = () => {
   return (
     <div className="LoginPage">
       <div className="LoginPage__Container">
-        <div>
-          <FloatLabel>
-            <InputText
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <label htmlFor="email">E-Mail</label>
-          </FloatLabel>
-        </div>
+        <FloatLabel>
+          <InputText
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <label htmlFor="email">E-Mail</label>
+        </FloatLabel>
 
-        <div>
-          <FloatLabel>
-            <Password
-              inputId="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              toggleMask
-              feedback={false}
-            />
-            <label htmlFor="password">Passwort</label>
-          </FloatLabel>
-        </div>
+        <FloatLabel>
+          <Password
+            style={{ width: "100%" }}
+            inputId="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            toggleMask
+            feedback={false}
+          />
+          <label htmlFor="password">Passwort</label>
+        </FloatLabel>
 
-        <div>
-          <Button onClick={onLoginClick}>Login</Button>
-        </div>
+        <Button raised onClick={onLoginClick}>
+          Login
+        </Button>
 
-        <div>
-          <Button onClick={onRegisterClick}>Registrieren</Button>
-        </div>
+        <Divider />
+
+        <Button raised onClick={onRegisterClick}>
+          Registrieren
+        </Button>
       </div>
     </div>
   );

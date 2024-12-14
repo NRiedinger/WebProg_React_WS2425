@@ -78,7 +78,11 @@ const ProductDetailPage = () => {
                 </div>
                 <div>{renderStockAmountText()}</div>
                 <div>
-                  <Button onClick={onAddItemToCart} label="In den Warenkorb" />
+                  <Button
+                    raised
+                    onClick={onAddItemToCart}
+                    label="In den Warenkorb"
+                  />
                 </div>
               </div>
             </div>

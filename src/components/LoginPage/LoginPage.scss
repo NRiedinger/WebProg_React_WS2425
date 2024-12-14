@@ -1,0 +1,16 @@
+.LoginPage {
+  .LoginPage__Container {
+    display: flex;
+    flex-direction: column;
+
+    > * {
+      margin: 0.5em 1em;
+    }
+
+    input.p-inputtext,
+    div.p-password,
+    div.p-password > * {
+      width: 100%;
+    }
+  }
+}

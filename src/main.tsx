@@ -13,6 +13,7 @@ import OrderOverviewPage from "./components/OrderOverviewPage/OrderOverviewPage.
 import ProductDetailPage from "./components/ProductDetailPage/ProductDetailPage.tsx";
 import ProductOverviewPage from "./components/ProductOverviewPage/ProductOverviewPage.tsx";
 import SignupPage from "./components/SignupPage/SignupPage.tsx";
+import UserDetailPage from "./components/UserDetailPage/UserDetailPage.tsx";
 import "./index.scss";
 import reducer from "./reducer/reducer.tsx";
 
@@ -26,10 +27,6 @@ const router = createBrowserRouter([
         element: <Navigate to="/products" replace />,
       },
       {
-        path: "/products",
-        element: <ProductOverviewPage />,
-      },
-      {
         path: "/login",
         element: <LoginPage />,
       },
@@ -38,16 +35,24 @@ const router = createBrowserRouter([
         element: <SignupPage />,
       },
       {
+        path: "/products",
+        element: <ProductOverviewPage />,
+      },
+      {
         path: "/product/:id",
         element: <ProductDetailPage />,
       },
       {
-        path: "/orders",
+        path: "/checkout",
+        element: <CheckoutPage />,
+      },
+      {
+        path: "/account/orders",
         element: <OrderOverviewPage />,
       },
       {
-        path: "/checkout",
-        element: <CheckoutPage />,
+        path: "/account/edit",
+        element: <UserDetailPage />,
       },
     ],
   },

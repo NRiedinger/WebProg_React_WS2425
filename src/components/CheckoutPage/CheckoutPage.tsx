@@ -69,7 +69,13 @@ const CheckoutPage = () => {
           </div>
 
           <div>
-            <Button label="Bearbeiten" />
+            <Button
+              raised
+              label="Bearbeiten"
+              onClick={() => {
+                navigate("/account/edit");
+              }}
+            />
           </div>
         </div>
 
@@ -96,7 +102,12 @@ const CheckoutPage = () => {
               <h2>{getSumItemPrice().toFixed(2)}€</h2>
             </div>
 
-            <Button rounded label="Kaufen" disabled={listItems.length === 0} />
+            <Button
+              raised
+              rounded
+              label="Kaufen"
+              disabled={listItems.length === 0}
+            />
           </div>
         </div>
       </div>

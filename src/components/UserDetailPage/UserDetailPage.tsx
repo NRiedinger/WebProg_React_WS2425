@@ -1,75 +1,71 @@
+import Cookies from "js-cookie";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputMask } from "primereact/InputMask";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "../../axiosURL";
-import "./SignupPage.scss";
+import { AppState } from "../../reducer/reducer";
+import "./UserDetailPage.scss";
 
-const SignupPage = () => {
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [street, setStreet] = useState("");
-  const [postcode, setPostcode] = useState("");
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [phone, setPhone] = useState<string | null | undefined>("");
-  const [email, setEmail] = useState("");
-  const [email2, setEmail2] = useState("");
-  const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
-
+const UserDetailPage = () => {
   const navigate = useNavigate();
 
-  const onSignup = () => {
-    axios
-      .post(
-        "/signup",
-        {
-          firstname,
-          lastname,
-          street,
-          postcode,
-          city,
-          country,
-          phone,
-          email,
-          password,
-        },
-        { withCredentials: true }
-      )
-      .then((res) => {
-        navigate("/");
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+  const currentUser = useSelector((state: AppState) => state.currentUser);
+  const [firstname, setFirstname] = useState<string | undefined>("");
+  const [lastname, setLastname] = useState<string | undefined>("");
+  const [street, setStreet] = useState<string | undefined>("");
+  const [postcode, setPostcode] = useState<string | undefined>("");
+  const [city, setCity] = useState<string | undefined>("");
+  const [country, setCountry] = useState<string | undefined>("");
+  const [phone, setPhone] = useState<string | null | undefined>("");
+  const [email, setEmail] = useState<string | undefined>("");
+  const [email2, setEmail2] = useState<string | undefined>("");
+  const [password, setPassword] = useState<string | undefined>("");
+  const [password2, setPassword2] = useState<string | undefined>("");
 
-  const checkCorrectlyFilled = () => {
+  useEffect(() => {
+    const isUserLoggedIn = !!Cookies.get("token");
+    if (!isUserLoggedIn) {
+      navigate("/");
+    } else {
+      setFirstname(currentUser?.firstname);
+      setLastname(currentUser?.lastname);
+      setStreet(currentUser?.street);
+      setPostcode(currentUser?.postcode);
+      setCity(currentUser?.city);
+      setCountry(currentUser?.country);
+      setPhone(currentUser?.phone);
+      setEmail(currentUser?.email);
+    }
+  }, [currentUser]);
+
+  const checkInfoCorrectlyFilled = () => {
     return (
-      firstname.length > 0 &&
-      lastname.length > 0 &&
-      street.length > 0 &&
-      postcode.length > 0 &&
-      city.length > 0 &&
-      country.length > 0 &&
-      email.length > 0 &&
-      email2.length > 0 &&
-      email === email2 &&
-      password.length > 0 &&
-      password2.length > 0 &&
-      password === password2
+      firstname?.length &&
+      lastname?.length &&
+      street?.length &&
+      postcode?.length &&
+      city?.length &&
+      country?.length
     );
   };
 
+  const checkEmailCorrectlyFilled = () => {
+    return email?.length && email2?.length && email === email2;
+  };
+
+  const checkPasswordCorrectlyFilled = () => {
+    return password?.length && password2?.length && password === password2;
+  };
+
   return (
-    <div className="SignupPage">
-      <div className="SignupPage__Container">
-        <div className="SignupPage__Container__Row">
+    <div className="UserDetailPage">
+      <div className="UserDetailPage__Container">
+        <div className="UserDetailPage__Container__Row">
           <FloatLabel>
             <InputText
               id="firstname"
@@ -89,9 +85,7 @@ const SignupPage = () => {
           </FloatLabel>
         </div>
 
-        <Divider />
-
-        <div className="SignupPage__Container__Row">
+        <div className="UserDetailPage__Container__Row">
           <FloatLabel>
             <InputText
               id="street"
@@ -102,7 +96,7 @@ const SignupPage = () => {
           </FloatLabel>
         </div>
 
-        <div className="SignupPage__Container__Row">
+        <div className="UserDetailPage__Container__Row">
           <FloatLabel>
             <InputText
               id="postcode"
@@ -122,7 +116,7 @@ const SignupPage = () => {
           </FloatLabel>
         </div>
 
-        <div className="SignupPage__Container__Row">
+        <div className="UserDetailPage__Container__Row">
           <FloatLabel>
             <InputText
               id="country"
@@ -133,9 +127,7 @@ const SignupPage = () => {
           </FloatLabel>
         </div>
 
-        <Divider />
-
-        <div className="SignupPage__Container__Row">
+        <div className="UserDetailPage__Container__Row">
           <FloatLabel>
             <InputMask
               id="phone"
@@ -147,9 +139,17 @@ const SignupPage = () => {
           </FloatLabel>
         </div>
 
+        <div className="UserDetailPage__Container__Row">
+          <Button
+            raised
+            label="Informationen bearbeiten"
+            disabled={!checkInfoCorrectlyFilled()}
+          />
+        </div>
+
         <Divider />
 
-        <div className="SignupPage__Container__Row">
+        <div className="UserDetailPage__Container__Row">
           <FloatLabel>
             <InputText
               id="email"
@@ -170,7 +170,17 @@ const SignupPage = () => {
           </FloatLabel>
         </div>
 
-        <div className="SignupPage__Container__Row">
+        <div className="UserDetailPage__Container__Row">
+          <Button
+            raised
+            label="Email bearbeiten"
+            disabled={!checkEmailCorrectlyFilled()}
+          />
+        </div>
+
+        <Divider />
+
+        <div className="UserDetailPage__Container__Row">
           <FloatLabel>
             <Password
               inputId="password"
@@ -193,18 +203,15 @@ const SignupPage = () => {
           </FloatLabel>
         </div>
 
-        <Divider />
-
-        <div className="SignupPage__Container__Row">
+        <div className="UserDetailPage__Container__Row">
           <Button
             raised
-            disabled={!checkCorrectlyFilled()}
-            onClick={onSignup}
-            label="Registrieren"
+            label="Passwort bearbeiten"
+            disabled={!checkPasswordCorrectlyFilled()}
           />
         </div>
       </div>
     </div>
   );
 };
-export default SignupPage;
+export default UserDetailPage;
