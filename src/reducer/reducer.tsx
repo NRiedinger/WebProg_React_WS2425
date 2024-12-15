@@ -3,6 +3,7 @@ import {
   createAsyncThunk,
   createReducer,
 } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 import axios from "../axiosURL";
 import { ICartItem } from "../interfaces/CartItemInterface";
 import { ICategory } from "../interfaces/Category";
@@ -32,6 +33,18 @@ export const setItems = createAction<IProduct[]>("shop/setItems");
 
 // User
 export const setCurrentUser = createAction<IUser>("shop/setCurrentUser");
+export const fetchCurrentUser = createAsyncThunk(
+  "shop/fetchCurrentUser",
+  async () => {
+    const res = await axios.post(
+      "/getUser",
+      { token: Cookies.get("token") },
+      { withCredentials: true }
+    );
+
+    return res.data;
+  }
+);
 
 // Cart
 export const addItemToCart = createAction<ICartItem>("shop/addItemToCart");
@@ -77,6 +90,9 @@ const reducer = createReducer(initialState, (builder) => {
 
   // user
   builder.addCase(setCurrentUser, (state, action) => {
+    state.currentUser = action.payload;
+  });
+  builder.addCase(fetchCurrentUser.fulfilled, (state, action) => {
     state.currentUser = action.payload;
   });
 

@@ -44,13 +44,14 @@ const ProductOverviewItem = ({ product }: { product: IProduct }) => {
             {product.price.toFixed(2)}€
           </div>
         </div>
-        <div className="ProductOverviewItem__AddToBasket">
+        <div
+          className="ProductOverviewItem__AddToBasket"
+          onClick={(e) => {
+            onAddItemToCart(e);
+          }}
+        >
           <IconContext.Provider value={{ size: "1.5em" }}>
-            <BiCartAdd
-              onClick={(e) => {
-                onAddItemToCart(e);
-              }}
-            />
+            <BiCartAdd />
           </IconContext.Provider>
         </div>
       </div>

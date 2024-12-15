@@ -1,10 +1,12 @@
-import Cookies from "js-cookie";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
+import { Toast } from "primereact/Toast";
+import { RefObject } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "../../axiosURL";
 import "./SidebarUserContent.scss";
 
-const SidebarUserContent = () => {
+const SidebarUserContent = ({ toastRef }: { toastRef: RefObject<Toast> }) => {
   const navigate = useNavigate();
 
   return (
@@ -33,10 +35,27 @@ const SidebarUserContent = () => {
         <Button
           raised
           severity="danger"
-          label="Ausloggen"
+          label="Abmelden"
           onClick={() => {
-            Cookies.remove("token");
-            navigate(0);
+            axios
+              .post("/logout", {}, { withCredentials: true })
+              .then((res) => {
+                console.log(res);
+                toastRef.current?.show({
+                  severity: "success",
+                  detail: res.data,
+                });
+                navigate("/");
+              })
+              .catch((err) => {
+                console.error(err);
+                toastRef.current?.show({
+                  severity: "error",
+                  detail: err.response.data,
+                });
+                navigate("/");
+              });
+            document.getElementById("user-sidebar-button")?.click();
           }}
         />
       </div>

@@ -2,33 +2,48 @@ import { Button } from "primereact/button";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import { useState } from "react";
+import { RefObject, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LoginPage.scss";
 
+import { ThunkDispatch } from "@reduxjs/toolkit";
 import { Divider } from "primereact/divider";
+import { Toast } from "primereact/Toast";
+import { useDispatch } from "react-redux";
 import axios from "../../axiosURL";
+import { fetchCurrentUser } from "../../reducer/reducer";
 
-const LoginPage = () => {
+const LoginPage = ({ toastRef }: { toastRef: RefObject<Toast> }) => {
   const [email, setEmail] = useState<string>("max@mail.de");
   const [password, setPassword] = useState<string>("passwort");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
   const onLoginClick = () => {
     axios
       .post("/login", { email, password }, { withCredentials: true })
       .then((res) => {
-        navigate(0);
+        dispatch(fetchCurrentUser());
+        toastRef.current?.show({
+          severity: "success",
+          detail: res.data,
+        });
+        document.getElementById("user-sidebar-button")?.click();
       })
       .catch((err) => {
         console.error(err);
+        setPassword("");
+        toastRef.current?.show({
+          severity: "error",
+          detail: err.response.data,
+        });
       });
   };
 
   const onRegisterClick = () => {
     navigate("/signup");
-    navigate(0);
+    document.getElementById("user-sidebar-button")?.click();
   };
 
   return (
@@ -51,19 +66,16 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
             toggleMask
             feedback={false}
+            invalid={!password.length}
           />
           <label htmlFor="password">Passwort</label>
         </FloatLabel>
 
-        <Button raised onClick={onLoginClick}>
-          Login
-        </Button>
+        <Button raised onClick={onLoginClick} label="Anmelden" />
 
         <Divider />
 
-        <Button raised onClick={onRegisterClick}>
-          Registrieren
-        </Button>
+        <Button raised onClick={onRegisterClick} label="Registrieren" />
       </div>
     </div>
   );

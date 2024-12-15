@@ -140,7 +140,7 @@ const SignupPage = () => {
             <InputMask
               id="phone"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onComplete={(e) => setPhone(e.value)}
               mask="+99 9999 99 99999"
             ></InputMask>
             <label htmlFor="phone">Telefon</label>
@@ -188,6 +188,7 @@ const SignupPage = () => {
               onChange={(e) => setPassword2(e.target.value)}
               toggleMask
               invalid={password !== password2}
+              feedback={false}
             />
             <label htmlFor="password2">Passwort*</label>
           </FloatLabel>

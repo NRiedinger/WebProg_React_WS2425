@@ -8,11 +8,12 @@ import { FaRegUser } from "react-icons/fa6";
 import { RiShoppingBag4Line } from "react-icons/ri";
 
 import Cookies from "js-cookie";
-import { useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LoginPage from "../LoginPage/LoginPage";
 import SidebarUserContent from "../SidebarUserContent/SidebarUserContent";
 
+import { Toast } from "primereact/Toast";
 import { useNavigate } from "react-router-dom";
 import axios from "../../axiosURL";
 import { AppState, loadCart, setCurrentUser } from "../../reducer/reducer";
@@ -28,7 +29,7 @@ const NavBar = () => {
 
   const isUserLoggedIn = !!Cookies.get("token");
 
-  const sidebarCartRef = useRef(null);
+  const toastRef: RefObject<Toast> = useRef<Toast>(null);
 
   useEffect(() => {
     if (isUserLoggedIn) {
@@ -73,9 +74,8 @@ const NavBar = () => {
         position="right"
         onHide={() => onCartSidebarToggle(false)}
         header={<h1>Warenkorb</h1>}
-        ref={sidebarCartRef}
       >
-        <SidebarCartContent />
+        <SidebarCartContent toastRef={toastRef} />
       </Sidebar>
 
       <Sidebar
@@ -90,7 +90,11 @@ const NavBar = () => {
           </h1>
         }
       >
-        {isUserLoggedIn ? <SidebarUserContent /> : <LoginPage />}
+        {isUserLoggedIn ? (
+          <SidebarUserContent toastRef={toastRef} />
+        ) : (
+          <LoginPage toastRef={toastRef} />
+        )}
       </Sidebar>
 
       <div className="NavBar">
@@ -100,7 +104,6 @@ const NavBar = () => {
               <img
                 onClick={() => {
                   navigate("/products");
-                  navigate(0);
                 }}
                 src={logoSvg}
               />
@@ -135,6 +138,8 @@ const NavBar = () => {
           </div>
         </div>
       </div>
+
+      <Toast ref={toastRef} position="top-left" />
     </>
   );
 };

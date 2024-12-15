@@ -5,14 +5,18 @@ import { FloatLabel } from "primereact/floatlabel";
 import { InputMask } from "primereact/InputMask";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import { useEffect, useState } from "react";
+import { Toast } from "primereact/Toast";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppState } from "../../reducer/reducer";
 import "./UserDetailPage.scss";
 
+import axios from "../../axiosURL";
+
 const UserDetailPage = () => {
   const navigate = useNavigate();
+  const toast = useRef<Toast>(null);
 
   const currentUser = useSelector((state: AppState) => state.currentUser);
   const [firstname, setFirstname] = useState<string | undefined>("");
@@ -24,6 +28,7 @@ const UserDetailPage = () => {
   const [phone, setPhone] = useState<string | null | undefined>("");
   const [email, setEmail] = useState<string | undefined>("");
   const [email2, setEmail2] = useState<string | undefined>("");
+  const [oldPassword, setOldPassword] = useState<string>("");
   const [password, setPassword] = useState<string | undefined>("");
   const [password2, setPassword2] = useState<string | undefined>("");
 
@@ -50,16 +55,117 @@ const UserDetailPage = () => {
       street?.length &&
       postcode?.length &&
       city?.length &&
-      country?.length
+      country?.length &&
+      (currentUser?.firstname !== firstname ||
+        currentUser?.lastname !== lastname ||
+        currentUser?.street !== street ||
+        currentUser?.postcode !== postcode ||
+        currentUser?.city !== city ||
+        currentUser?.country !== country ||
+        currentUser?.phone !== phone)
     );
   };
 
   const checkEmailCorrectlyFilled = () => {
-    return email?.length && email2?.length && email === email2;
+    return (
+      email?.length &&
+      email2?.length &&
+      email === email2 &&
+      currentUser?.email !== email
+    );
   };
 
   const checkPasswordCorrectlyFilled = () => {
-    return password?.length && password2?.length && password === password2;
+    return (
+      oldPassword?.length &&
+      password?.length &&
+      password2?.length &&
+      password === password2
+    );
+  };
+
+  const onEditInfo = () => {
+    const newUser = {
+      _id: currentUser?._id,
+      firstname,
+      lastname,
+      street,
+      postcode,
+      city,
+      country,
+      phone,
+    };
+
+    axios
+      .post("/setUserData", newUser, { withCredentials: true })
+      .then((res) => {
+        console.log(res);
+        toast.current?.show({
+          severity: "success",
+          detail: res.data,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.current?.show({
+          severity: "error",
+          detail: err.response.data,
+        });
+      });
+  };
+
+  const onEditEmail = () => {
+    axios
+      .post(
+        "/setUserEmail",
+        { _id: currentUser?._id, email },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        console.log(res);
+        toast.current?.show({
+          severity: "success",
+          detail: res.data,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.current?.show({
+          severity: "error",
+          detail: err.response.data,
+        });
+      })
+      .finally(() => {
+        setEmail2("");
+      });
+  };
+
+  const onEditPassword = () => {
+    axios
+      .post(
+        "/setUserPassword",
+        { _id: currentUser?._id, oldPassword, password },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        console.log(res);
+        toast.current?.show({
+          severity: "success",
+          detail: res.data,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.current?.show({
+          severity: "error",
+          detail: err.response.data,
+        });
+      })
+      .finally(() => {
+        setOldPassword("");
+        setPassword("");
+        setPassword2("");
+      });
   };
 
   return (
@@ -132,7 +238,7 @@ const UserDetailPage = () => {
             <InputMask
               id="phone"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onComplete={(e) => setPhone(e.value)}
               mask="+99 9999 99 99999"
             ></InputMask>
             <label htmlFor="phone">Telefon</label>
@@ -142,8 +248,11 @@ const UserDetailPage = () => {
         <div className="UserDetailPage__Container__Row">
           <Button
             raised
-            label="Informationen bearbeiten"
+            label="Änderungen speichern"
             disabled={!checkInfoCorrectlyFilled()}
+            onClick={() => {
+              onEditInfo();
+            }}
           />
         </div>
 
@@ -173,12 +282,28 @@ const UserDetailPage = () => {
         <div className="UserDetailPage__Container__Row">
           <Button
             raised
-            label="Email bearbeiten"
+            label="Email ändern"
             disabled={!checkEmailCorrectlyFilled()}
+            onClick={() => {
+              onEditEmail();
+            }}
           />
         </div>
 
         <Divider />
+
+        <div className="UserDetailPage__Container__Row">
+          <FloatLabel>
+            <Password
+              inputId="oldPassword"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+              toggleMask
+              feedback={false}
+            />
+            <label htmlFor="oldPassword">altes Passwort</label>
+          </FloatLabel>
+        </div>
 
         <div className="UserDetailPage__Container__Row">
           <FloatLabel>
@@ -188,7 +313,7 @@ const UserDetailPage = () => {
               onChange={(e) => setPassword(e.target.value)}
               toggleMask
             />
-            <label htmlFor="password">Passwort*</label>
+            <label htmlFor="password">neues Passwort</label>
           </FloatLabel>
 
           <FloatLabel>
@@ -198,19 +323,25 @@ const UserDetailPage = () => {
               onChange={(e) => setPassword2(e.target.value)}
               toggleMask
               invalid={password !== password2}
+              feedback={false}
             />
-            <label htmlFor="password2">Passwort*</label>
+            <label htmlFor="password2">neues Passwort wiederholen</label>
           </FloatLabel>
         </div>
 
         <div className="UserDetailPage__Container__Row">
           <Button
             raised
-            label="Passwort bearbeiten"
+            label="Passwort ändern"
             disabled={!checkPasswordCorrectlyFilled()}
+            onClick={() => {
+              onEditPassword();
+            }}
           />
         </div>
       </div>
+
+      <Toast ref={toast} position="top-left" />
     </div>
   );
 };

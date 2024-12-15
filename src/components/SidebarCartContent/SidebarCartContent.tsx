@@ -2,6 +2,8 @@ import Cookies from "js-cookie";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { InputNumber } from "primereact/inputnumber";
+import { Toast } from "primereact/Toast";
+import { RefObject } from "react";
 import { IconContext } from "react-icons";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +17,11 @@ import {
 } from "../../reducer/reducer";
 import "./SidebarCartContent.scss";
 
-export const SidebarCartContent = () => {
+export const SidebarCartContent = ({
+  toastRef,
+}: {
+  toastRef: RefObject<Toast>;
+}) => {
   const cartItems = useSelector((state: AppState) => state.cartItems);
   const dispatch = useDispatch();
   const navigate = useNavigate();
