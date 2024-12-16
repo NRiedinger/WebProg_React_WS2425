@@ -38,6 +38,15 @@ const OrderOverviewPage = () => {
         </div>
 
         <div className="Header__Container__Item">
+          <div>Anzahl Artikel</div>
+          <div>
+            {order.articles
+              .map((article) => article.quantity)
+              .reduce((a, b) => a + b, 0)}
+          </div>
+        </div>
+
+        <div className="Header__Container__Item">
           <div>Summe</div>
           <div>{getArticlesTotalSum(order.articles).toFixed(2)}€</div>
         </div>

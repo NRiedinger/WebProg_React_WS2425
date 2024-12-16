@@ -275,7 +275,7 @@ const UserDetailPage = () => {
               id="email2"
               value={email2}
               onChange={(e) => setEmail2(e.target.value)}
-              invalid={email !== email2}
+              invalid={email !== currentUser?.email && email !== email2}
             />
             <label htmlFor="email2">E-Mail wiederholen*</label>
           </FloatLabel>

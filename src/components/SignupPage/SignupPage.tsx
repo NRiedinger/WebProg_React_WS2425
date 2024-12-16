@@ -1,12 +1,16 @@
+import { ThunkDispatch } from "@reduxjs/toolkit";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { FloatLabel } from "primereact/floatlabel";
 import { InputMask } from "primereact/InputMask";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import { useState } from "react";
+import { Toast } from "primereact/Toast";
+import { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "../../axiosURL";
+import { fetchCurrentUser } from "../../reducer/reducer";
 import "./SignupPage.scss";
 
 const SignupPage = () => {
@@ -23,6 +27,8 @@ const SignupPage = () => {
   const [password2, setPassword2] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+  const toastRef = useRef<Toast>(null);
 
   const onSignup = () => {
     axios
@@ -42,7 +48,13 @@ const SignupPage = () => {
         { withCredentials: true }
       )
       .then((res) => {
+        dispatch(fetchCurrentUser());
+        toastRef.current?.show({
+          severity: "success",
+          detail: res.data,
+        });
         navigate("/");
+        document.getElementById("user-sidebar-button")?.click();
       })
       .catch((err) => {
         console.error(err);
@@ -205,6 +217,8 @@ const SignupPage = () => {
           />
         </div>
       </div>
+
+      <Toast ref={toastRef} position="top-left" />
     </div>
   );
 };
