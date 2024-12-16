@@ -16,11 +16,11 @@ const ProductOverviewItem = ({ product }: { product: IProduct }) => {
 
     dispatch(
       addItemToCart({
-        productId: product._id,
+        articleId: product._id,
         name: product.name,
         price: product.price,
         href: product.href,
-        amount: 1,
+        quantity: 1,
       })
     );
 

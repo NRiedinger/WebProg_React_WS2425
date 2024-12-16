@@ -129,7 +129,7 @@ const NavBar = () => {
                 {cartItems.length > 0 ? (
                   <Badge
                     value={cartItems
-                      .map((item) => item.amount)
+                      .map((item) => item.quantity)
                       .reduce((a, b) => a + b, 0)}
                   ></Badge>
                 ) : null}

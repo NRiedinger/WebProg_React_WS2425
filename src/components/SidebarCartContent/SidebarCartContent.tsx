@@ -31,16 +31,16 @@ export const SidebarCartContent = ({
       return;
     }
 
-    dispatch(addItemToCart({ ...item, amount: e.value - item.amount }));
+    dispatch(addItemToCart({ ...item, quantity: e.value - item.quantity }));
   };
 
   const onRemoveItem = (item: ICartItem) => {
-    dispatch(removeItemFromCart(item.productId));
+    dispatch(removeItemFromCart(item.articleId));
   };
 
   const getSumItemPrice = () => {
     return cartItems
-      .map((item) => item.price * item.amount)
+      .map((item) => item.price * item.quantity)
       .reduce((a, b) => a + b, 0);
   };
 
@@ -57,14 +57,15 @@ export const SidebarCartContent = ({
           <div
             className="SidebarCartContent__Item left"
             onClick={() => {
-              navigate(`/product/${item.productId}`);
+              navigate(`/product/${item.articleId}`);
+              document.getElementById("cart-sidebar-button")?.click();
             }}
           >
             <div className="SidebarCartContent__Item__Image">
               <img src={axios.defaults.baseURL + item.href} />
             </div>
             <div className="SidebarCartContent__Item__Info">
-              <h2>{item.name}</h2>
+              <div>{item.name}</div>
               <div>{item.price.toFixed(2)}€</div>
             </div>
           </div>
@@ -72,7 +73,7 @@ export const SidebarCartContent = ({
           <div className="SidebarCartContent__Item right">
             <InputNumber
               className="SidebarCartContent__Item__Amount"
-              value={item.amount}
+              value={item.quantity}
               mode="decimal"
               showButtons
               min={1}

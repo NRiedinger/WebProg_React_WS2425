@@ -26,6 +26,7 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
+      height: 5em;
 
       .SidebarCartContent__Item__Image {
         width: 4em;
@@ -34,6 +35,9 @@
 
         img {
           width: 100%;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03),
+            0 0 2px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.12);
+          border-radius: 5px;
         }
       }
 

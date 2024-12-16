@@ -1,2 +1,51 @@
 .OrderOverviewPage {
+  .OrderOverviewPage__NoOrders {
+    text-align: center;
+  }
+
+  .OrderOverviewPage__Container {
+    .OrderOverviewPage__Container__Item {
+      margin: 1em 0;
+
+      .Header__Container {
+        display: flex;
+        flex-direction: row;
+
+        .Header__Container__Item {
+          display: flex;
+          flex-direction: column;
+          margin: 0 1em;
+
+          > *:first-child {
+            font-weight: bold;
+          }
+
+          > * {
+            margin: 0.2em 0;
+          }
+        }
+      }
+
+      .Article {
+        .Article__List {
+          .Article__List__Image {
+            height: 4em;
+            width: 4em;
+            cursor: pointer;
+
+            img {
+              height: 100%;
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03),
+                0 0 2px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.12);
+              border-radius: 5px;
+            }
+          }
+
+          .Article__List__Footer {
+            text-align: right;
+          }
+        }
+      }
+    }
+  }
 }

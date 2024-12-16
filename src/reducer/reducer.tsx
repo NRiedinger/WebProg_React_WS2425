@@ -49,6 +49,7 @@ export const fetchCurrentUser = createAsyncThunk(
 // Cart
 export const addItemToCart = createAction<ICartItem>("shop/addItemToCart");
 export const loadCart = createAction<ICartItem[]>("shop/loadCart");
+export const clearCart = createAction("shop/clearCart");
 export const removeItemFromCart = createAction<string>(
   "shop/removeItemFromCart"
 );
@@ -99,11 +100,11 @@ const reducer = createReducer(initialState, (builder) => {
   // cart items
   builder.addCase(addItemToCart, (state, action) => {
     const foundItemIndex = state.cartItems.findIndex((item) => {
-      return item.productId === action.payload.productId;
+      return item.articleId === action.payload.articleId;
     });
 
     if (foundItemIndex > -1) {
-      state.cartItems[foundItemIndex].amount += action.payload.amount;
+      state.cartItems[foundItemIndex].quantity += action.payload.quantity;
     } else {
       state.cartItems.push(action.payload);
     }
@@ -113,8 +114,11 @@ const reducer = createReducer(initialState, (builder) => {
   });
   builder.addCase(removeItemFromCart, (state, action) => {
     state.cartItems = state.cartItems.filter((item) => {
-      return item.productId !== action.payload;
+      return item.articleId !== action.payload;
     });
+  });
+  builder.addCase(clearCart, (state, _) => {
+    state.cartItems = [];
   });
 
   // orders

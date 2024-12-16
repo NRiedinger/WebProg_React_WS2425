@@ -28,11 +28,11 @@ const ProductDetailPage = () => {
     }
     dispatch(
       addItemToCart({
-        productId: product._id,
+        articleId: product._id,
         name: product.name,
         price: product.price,
         href: product.href,
-        amount: 1,
+        quantity: 1,
       })
     );
   };
@@ -63,7 +63,10 @@ const ProductDetailPage = () => {
           <div className="ProductDetailPage__Container">
             <div className="ProductDetailPage__Container__Row Overview">
               <div className="ProductDetailPage__Container__Row__Image">
-                <img src={axios.defaults.baseURL + product.href}></img>
+                <img
+                  src={axios.defaults.baseURL + product.href}
+                  alt={product.href}
+                />
               </div>
               <div className="ProductDetailPage__Container__Row__Info">
                 <div>

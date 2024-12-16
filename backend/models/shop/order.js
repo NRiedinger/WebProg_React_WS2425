@@ -7,6 +7,8 @@ let orderSchema = new mongoose.Schema({
       articleId: { type: mongoose.Schema.Types.ObjectId, required: true },
       quantity: { type: Number, required: true },
       price: { type: Number, required: true },
+      name: { type: String, required: true },
+      href: { type: String, required: true },
     },
   ],
   userId: { type: mongoose.Schema.Types.ObjectId, required: true },

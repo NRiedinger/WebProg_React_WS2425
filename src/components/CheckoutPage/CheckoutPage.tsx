@@ -2,19 +2,21 @@ import Cookies from "js-cookie";
 import { Badge } from "primereact/badge";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { Toast } from "primereact/Toast";
+import { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "../../axiosURL";
 import { ICartItem } from "../../interfaces/CartItemInterface";
-import { AppState } from "../../reducer/reducer";
+import { AppState, clearCart } from "../../reducer/reducer";
 import "./CheckoutPage.scss";
 
 const CheckoutPage = () => {
-  const [shippingCosts, setShippingCosts] = useState<number>(5);
   const cartItems = useSelector((state: AppState) => state.cartItems);
   const user = useSelector((state: AppState) => state.currentUser);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const toast = useRef<Toast>(null);
 
   useEffect(() => {
     const isUserLoggedIn = !!Cookies.get("token");
@@ -25,13 +27,41 @@ const CheckoutPage = () => {
   }, []);
 
   const getTotalItemCount = () => {
-    return cartItems.map((item) => item.amount).reduce((a, b) => a + b, 0);
+    return cartItems.map((item) => item.quantity).reduce((a, b) => a + b, 0);
   };
 
   const getSumItemPrice = () => {
     return cartItems
-      .map((item) => item.price * item.amount)
+      .map((item) => item.price * item.quantity)
       .reduce((a, b) => a + b, 0);
+  };
+
+  const onOrder = () => {
+    axios
+      .post(
+        "/shop/order",
+        cartItems.map((item) => {
+          return {
+            articleId: item.articleId,
+            quantity: item.quantity,
+            price: item.price,
+            name: item.name,
+            href: item.href,
+          };
+        }),
+        { withCredentials: true }
+      )
+      .then((res) => {
+        console.log(res);
+        toast.current?.show({
+          severity: "success",
+          detail: res.data,
+        });
+        dispatch(clearCart());
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   const listItems = cartItems.map((item: ICartItem, index: number) => {
@@ -39,14 +69,14 @@ const CheckoutPage = () => {
       <div key={index} className="CheckoutPage__Container__Item">
         <div className="CheckoutPage__Container__Item__Image">
           <img src={axios.defaults.baseURL + item.href} />
-          <Badge value={item.amount}></Badge>
+          <Badge value={item.quantity}></Badge>
         </div>
 
         <div className="CheckoutPage__Container__Item__Name">
           <div>{item.name}</div>
         </div>
         <div className="CheckoutPage__Container__Item__Price">
-          <div>{(item.price * item.amount).toFixed(2)}€</div>
+          <div>{(item.price * item.quantity).toFixed(2)}€</div>
         </div>
       </div>
     );
@@ -107,10 +137,15 @@ const CheckoutPage = () => {
               rounded
               label="Kaufen"
               disabled={listItems.length === 0}
+              onClick={() => {
+                onOrder();
+              }}
             />
           </div>
         </div>
       </div>
+
+      <Toast ref={toast} position="top-left" />
     </div>
   );
 };

@@ -226,23 +226,17 @@ module.exports = function (app) {
    */
   app.post("/shop/order/", verifyToken, function (req, res) {
     try {
-      let date = new Date();
       let orderData = {
         userId: req.user.id,
         articles: req.body,
-        orderDate:
-          date.getDate() +
-          "." +
-          (date.getMonth() + 1) +
-          "." +
-          date.getFullYear(),
+        orderDate: new Date().toISOString(),
       };
       let order = new Order(orderData);
       order.save(function (err) {
         if (err) {
-          res.status(422).send("Data are not correct!");
+          res.status(422).send("Daten sind fehlerhaft.");
         } else {
-          res.status(201).send("Order was successful!");
+          res.status(201).send("Bestellung war erfolgreich.");
         }
       });
     } catch (error) {

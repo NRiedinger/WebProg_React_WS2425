@@ -170,6 +170,8 @@ const UserDetailPage = () => {
 
   return (
     <div className="UserDetailPage">
+      <h2>Meine Daten</h2>
+
       <div className="UserDetailPage__Container">
         <div className="UserDetailPage__Container__Row">
           <FloatLabel>
