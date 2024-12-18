@@ -16,12 +16,12 @@ const CheckoutPage = () => {
   const user = useSelector((state: AppState) => state.currentUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const toast = useRef<Toast>(null);
 
   useEffect(() => {
     const isUserLoggedIn = !!Cookies.get("token");
     if (!isUserLoggedIn) {
-      document.getElementById("user-sidebar-button")?.click();
+      /* document.getElementById("user-sidebar-button")?.click(); */
+      window.glToggleUserSidebar(true);
       navigate("/");
     }
   }, []);
@@ -31,9 +31,7 @@ const CheckoutPage = () => {
   };
 
   const getSumItemPrice = () => {
-    return cartItems
-      .map((item) => item.price * item.quantity)
-      .reduce((a, b) => a + b, 0);
+    return cartItems.map((item) => item.price * item.quantity).reduce((a, b) => a + b, 0);
   };
 
   const onOrder = () => {
@@ -53,7 +51,7 @@ const CheckoutPage = () => {
       )
       .then((res) => {
         console.log(res);
-        toast.current?.show({
+        window.glToastRef.current?.show({
           severity: "success",
           detail: res.data,
         });
@@ -110,9 +108,7 @@ const CheckoutPage = () => {
         </div>
 
         <div className="CheckoutPage__Container__Right">
-          <div className="CheckoutPage__Container__Right__Content">
-            {listItems.length > 0 ? listItems : null}
-          </div>
+          <div className="CheckoutPage__Container__Right__Content">{listItems.length > 0 ? listItems : null}</div>
 
           <div className="CheckoutPage__Container__Right__Footer">
             <Divider />
@@ -144,8 +140,6 @@ const CheckoutPage = () => {
           </div>
         </div>
       </div>
-
-      <Toast ref={toast} position="top-left" />
     </div>
   );
 };

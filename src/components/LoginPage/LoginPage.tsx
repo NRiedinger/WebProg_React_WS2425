@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 import axios from "../../axiosURL";
 import { fetchCurrentUser } from "../../reducer/reducer";
 
-const LoginPage = ({ toastRef }: { toastRef: RefObject<Toast> }) => {
+const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -25,16 +25,17 @@ const LoginPage = ({ toastRef }: { toastRef: RefObject<Toast> }) => {
       .post("/login", { email, password }, { withCredentials: true })
       .then((res) => {
         dispatch(fetchCurrentUser());
-        toastRef.current?.show({
+        window.glToastRef.current?.show({
           severity: "success",
           detail: res.data,
         });
-        document.getElementById("user-sidebar-button")?.click();
+        /* document.getElementById("user-sidebar-button")?.click(); */
+        window.glToggleUserSidebar(false);
       })
       .catch((err) => {
         console.error(err);
         setPassword("");
-        toastRef.current?.show({
+        window.glToastRef.current?.show({
           severity: "error",
           detail: err.response.data,
         });
@@ -43,18 +44,15 @@ const LoginPage = ({ toastRef }: { toastRef: RefObject<Toast> }) => {
 
   const onRegisterClick = () => {
     navigate("/signup");
-    document.getElementById("user-sidebar-button")?.click();
+    window.glToggleUserSidebar(false);
+    /* document.getElementById("user-sidebar-button")?.click(); */
   };
 
   return (
     <div className="LoginPage">
       <div className="LoginPage__Container">
         <FloatLabel>
-          <InputText
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <InputText id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <label htmlFor="email">E-Mail</label>
         </FloatLabel>
 

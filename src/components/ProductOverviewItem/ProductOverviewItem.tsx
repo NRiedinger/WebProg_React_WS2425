@@ -24,6 +24,11 @@ const ProductOverviewItem = ({ product }: { product: IProduct }) => {
       })
     );
 
+    window.glToastRef.current?.show({
+      severity: "info",
+      detail: "Produkt dem Warenkorb hinzugefügt.",
+    });
+
     e.stopPropagation();
   };
 
@@ -34,15 +39,11 @@ const ProductOverviewItem = ({ product }: { product: IProduct }) => {
           <img src={axios.defaults.baseURL + product.href} />
         </div>
         <div className="ProductOverviewItem__Info">
-          <div className="ProductOverviewItem__Info__Row name">
-            {product.name}
-          </div>
+          <div className="ProductOverviewItem__Info__Row name">{product.name}</div>
           <div className="ProductOverviewItem__Info__Row rating">
             <Rating value={product.rating} readOnly cancel={false} />
           </div>
-          <div className="ProductOverviewItem__Info__Row price">
-            {product.price.toFixed(2)}€
-          </div>
+          <div className="ProductOverviewItem__Info__Row price">{product.price.toFixed(2)}€</div>
         </div>
         <div
           className="ProductOverviewItem__AddToBasket"

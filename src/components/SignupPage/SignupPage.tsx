@@ -54,7 +54,8 @@ const SignupPage = () => {
           detail: res.data,
         });
         navigate("/");
-        document.getElementById("user-sidebar-button")?.click();
+        /* document.getElementById("user-sidebar-button")?.click(); */
+        window.glToggleUserSidebar(false);
       })
       .catch((err) => {
         console.error(err);
@@ -83,20 +84,12 @@ const SignupPage = () => {
       <div className="SignupPage__Container">
         <div className="SignupPage__Container__Row">
           <FloatLabel>
-            <InputText
-              id="firstname"
-              value={firstname}
-              onChange={(e) => setFirstname(e.target.value)}
-            />
+            <InputText id="firstname" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
             <label htmlFor="email">Vorname*</label>
           </FloatLabel>
 
           <FloatLabel>
-            <InputText
-              id="lastname"
-              value={lastname}
-              onChange={(e) => setLastname(e.target.value)}
-            />
+            <InputText id="lastname" value={lastname} onChange={(e) => setLastname(e.target.value)} />
             <label htmlFor="lastname">Nachname*</label>
           </FloatLabel>
         </div>
@@ -105,42 +98,26 @@ const SignupPage = () => {
 
         <div className="SignupPage__Container__Row">
           <FloatLabel>
-            <InputText
-              id="street"
-              value={street}
-              onChange={(e) => setStreet(e.target.value)}
-            />
+            <InputText id="street" value={street} onChange={(e) => setStreet(e.target.value)} />
             <label htmlFor="street">Straße + Hausnummer*</label>
           </FloatLabel>
         </div>
 
         <div className="SignupPage__Container__Row">
           <FloatLabel>
-            <InputText
-              id="postcode"
-              value={postcode}
-              onChange={(e) => setPostcode(e.target.value)}
-            />
+            <InputText id="postcode" value={postcode} onChange={(e) => setPostcode(e.target.value)} />
             <label htmlFor="postcode">PLZ*</label>
           </FloatLabel>
 
           <FloatLabel>
-            <InputText
-              id="city"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-            />
+            <InputText id="city" value={city} onChange={(e) => setCity(e.target.value)} />
             <label htmlFor="city">Stadt*</label>
           </FloatLabel>
         </div>
 
         <div className="SignupPage__Container__Row">
           <FloatLabel>
-            <InputText
-              id="country"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-            />
+            <InputText id="country" value={country} onChange={(e) => setCountry(e.target.value)} />
             <label htmlFor="country">Land*</label>
           </FloatLabel>
         </div>
@@ -163,11 +140,7 @@ const SignupPage = () => {
 
         <div className="SignupPage__Container__Row">
           <FloatLabel>
-            <InputText
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <InputText id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <label htmlFor="email">E-Mail*</label>
           </FloatLabel>
 
@@ -184,12 +157,7 @@ const SignupPage = () => {
 
         <div className="SignupPage__Container__Row">
           <FloatLabel>
-            <Password
-              inputId="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              toggleMask
-            />
+            <Password inputId="password" value={password} onChange={(e) => setPassword(e.target.value)} toggleMask />
             <label htmlFor="password">Passwort*</label>
           </FloatLabel>
 
@@ -209,12 +177,7 @@ const SignupPage = () => {
         <Divider />
 
         <div className="SignupPage__Container__Row">
-          <Button
-            raised
-            disabled={!checkCorrectlyFilled()}
-            onClick={onSignup}
-            label="Registrieren"
-          />
+          <Button raised disabled={!checkCorrectlyFilled()} onClick={onSignup} label="Registrieren" />
         </div>
       </div>
 

@@ -35,6 +35,11 @@ const ProductDetailPage = () => {
         quantity: 1,
       })
     );
+
+    window.glToastRef.current?.show({
+      severity: "info",
+      detail: "Produkt dem Warenkorb hinzugefügt.",
+    });
   };
 
   const renderStockAmountText = () => {
@@ -43,9 +48,7 @@ const ProductDetailPage = () => {
     }
 
     if (product.quantity <= 5) {
-      return (
-        <span className="stock-low">Nur noch {product.quantity} verfügbar</span>
-      );
+      return <span className="stock-low">Nur noch {product.quantity} verfügbar</span>;
     }
 
     return <span className="stock-normal">Auf Lager</span>;
@@ -63,10 +66,7 @@ const ProductDetailPage = () => {
           <div className="ProductDetailPage__Container">
             <div className="ProductDetailPage__Container__Row Overview">
               <div className="ProductDetailPage__Container__Row__Image">
-                <img
-                  src={axios.defaults.baseURL + product.href}
-                  alt={product.href}
-                />
+                <img src={axios.defaults.baseURL + product.href} alt={product.href} />
               </div>
               <div className="ProductDetailPage__Container__Row__Info">
                 <div>
@@ -81,11 +81,7 @@ const ProductDetailPage = () => {
                 </div>
                 <div>{renderStockAmountText()}</div>
                 <div>
-                  <Button
-                    raised
-                    onClick={onAddItemToCart}
-                    label="In den Warenkorb"
-                  />
+                  <Button raised onClick={onAddItemToCart} label="In den Warenkorb" />
                 </div>
               </div>
             </div>

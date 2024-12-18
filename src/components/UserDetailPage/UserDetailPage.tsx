@@ -5,7 +5,6 @@ import { FloatLabel } from "primereact/floatlabel";
 import { InputMask } from "primereact/InputMask";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import { Toast } from "primereact/Toast";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +15,6 @@ import axios from "../../axiosURL";
 
 const UserDetailPage = () => {
   const navigate = useNavigate();
-  const toast = useRef<Toast>(null);
 
   const currentUser = useSelector((state: AppState) => state.currentUser);
   const [firstname, setFirstname] = useState<string | undefined>("");
@@ -67,21 +65,11 @@ const UserDetailPage = () => {
   };
 
   const checkEmailCorrectlyFilled = () => {
-    return (
-      email?.length &&
-      email2?.length &&
-      email === email2 &&
-      currentUser?.email !== email
-    );
+    return email?.length && email2?.length && email === email2 && currentUser?.email !== email;
   };
 
   const checkPasswordCorrectlyFilled = () => {
-    return (
-      oldPassword?.length &&
-      password?.length &&
-      password2?.length &&
-      password === password2
-    );
+    return oldPassword?.length && password?.length && password2?.length && password === password2;
   };
 
   const onEditInfo = () => {
@@ -100,14 +88,14 @@ const UserDetailPage = () => {
       .post("/setUserData", newUser, { withCredentials: true })
       .then((res) => {
         console.log(res);
-        toast.current?.show({
+        window.glToastRef.current?.show({
           severity: "success",
           detail: res.data,
         });
       })
       .catch((err) => {
         console.error(err);
-        toast.current?.show({
+        window.glToastRef.current?.show({
           severity: "error",
           detail: err.response.data,
         });
@@ -116,21 +104,17 @@ const UserDetailPage = () => {
 
   const onEditEmail = () => {
     axios
-      .post(
-        "/setUserEmail",
-        { _id: currentUser?._id, email },
-        { withCredentials: true }
-      )
+      .post("/setUserEmail", { _id: currentUser?._id, email }, { withCredentials: true })
       .then((res) => {
         console.log(res);
-        toast.current?.show({
+        window.glToastRef.current?.show({
           severity: "success",
           detail: res.data,
         });
       })
       .catch((err) => {
         console.error(err);
-        toast.current?.show({
+        window.glToastRef.current?.show({
           severity: "error",
           detail: err.response.data,
         });
@@ -142,21 +126,17 @@ const UserDetailPage = () => {
 
   const onEditPassword = () => {
     axios
-      .post(
-        "/setUserPassword",
-        { _id: currentUser?._id, oldPassword, password },
-        { withCredentials: true }
-      )
+      .post("/setUserPassword", { _id: currentUser?._id, oldPassword, password }, { withCredentials: true })
       .then((res) => {
         console.log(res);
-        toast.current?.show({
+        window.glToastRef.current?.show({
           severity: "success",
           detail: res.data,
         });
       })
       .catch((err) => {
         console.error(err);
-        toast.current?.show({
+        window.glToastRef.current?.show({
           severity: "error",
           detail: err.response.data,
         });
@@ -175,62 +155,38 @@ const UserDetailPage = () => {
       <div className="UserDetailPage__Container">
         <div className="UserDetailPage__Container__Row">
           <FloatLabel>
-            <InputText
-              id="firstname"
-              value={firstname}
-              onChange={(e) => setFirstname(e.target.value)}
-            />
+            <InputText id="firstname" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
             <label htmlFor="email">Vorname*</label>
           </FloatLabel>
 
           <FloatLabel>
-            <InputText
-              id="lastname"
-              value={lastname}
-              onChange={(e) => setLastname(e.target.value)}
-            />
+            <InputText id="lastname" value={lastname} onChange={(e) => setLastname(e.target.value)} />
             <label htmlFor="lastname">Nachname*</label>
           </FloatLabel>
         </div>
 
         <div className="UserDetailPage__Container__Row">
           <FloatLabel>
-            <InputText
-              id="street"
-              value={street}
-              onChange={(e) => setStreet(e.target.value)}
-            />
+            <InputText id="street" value={street} onChange={(e) => setStreet(e.target.value)} />
             <label htmlFor="street">Straße + Hausnummer*</label>
           </FloatLabel>
         </div>
 
         <div className="UserDetailPage__Container__Row">
           <FloatLabel>
-            <InputText
-              id="postcode"
-              value={postcode}
-              onChange={(e) => setPostcode(e.target.value)}
-            />
+            <InputText id="postcode" value={postcode} onChange={(e) => setPostcode(e.target.value)} />
             <label htmlFor="postcode">PLZ*</label>
           </FloatLabel>
 
           <FloatLabel>
-            <InputText
-              id="city"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-            />
+            <InputText id="city" value={city} onChange={(e) => setCity(e.target.value)} />
             <label htmlFor="city">Stadt*</label>
           </FloatLabel>
         </div>
 
         <div className="UserDetailPage__Container__Row">
           <FloatLabel>
-            <InputText
-              id="country"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-            />
+            <InputText id="country" value={country} onChange={(e) => setCountry(e.target.value)} />
             <label htmlFor="country">Land*</label>
           </FloatLabel>
         </div>
@@ -262,11 +218,7 @@ const UserDetailPage = () => {
 
         <div className="UserDetailPage__Container__Row">
           <FloatLabel>
-            <InputText
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <InputText id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <label htmlFor="email">E-Mail*</label>
           </FloatLabel>
 
@@ -309,12 +261,7 @@ const UserDetailPage = () => {
 
         <div className="UserDetailPage__Container__Row">
           <FloatLabel>
-            <Password
-              inputId="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              toggleMask
-            />
+            <Password inputId="password" value={password} onChange={(e) => setPassword(e.target.value)} toggleMask />
             <label htmlFor="password">neues Passwort</label>
           </FloatLabel>
 
@@ -342,8 +289,6 @@ const UserDetailPage = () => {
           />
         </div>
       </div>
-
-      <Toast ref={toast} position="top-left" />
     </div>
   );
 };

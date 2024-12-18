@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "../../axiosURL";
 import "./SidebarUserContent.scss";
 
-const SidebarUserContent = ({ toastRef }: { toastRef: RefObject<Toast> }) => {
+const SidebarUserContent = () => {
   const navigate = useNavigate();
 
   return (
@@ -16,7 +16,8 @@ const SidebarUserContent = ({ toastRef }: { toastRef: RefObject<Toast> }) => {
           raised
           label="Meine Daten"
           onClick={() => {
-            document.getElementById("user-sidebar-button")?.click();
+            /* document.getElementById("user-sidebar-button")?.click(); */
+            window.glToggleUserSidebar(false);
             navigate("/account/edit");
           }}
         />
@@ -25,7 +26,8 @@ const SidebarUserContent = ({ toastRef }: { toastRef: RefObject<Toast> }) => {
           raised
           label="Meine Bestellungen"
           onClick={() => {
-            document.getElementById("user-sidebar-button")?.click();
+            /* document.getElementById("user-sidebar-button")?.click(); */
+            window.glToggleUserSidebar(false);
             navigate("/account/orders");
           }}
         />
@@ -41,7 +43,7 @@ const SidebarUserContent = ({ toastRef }: { toastRef: RefObject<Toast> }) => {
               .post("/logout", {}, { withCredentials: true })
               .then((res) => {
                 console.log(res);
-                toastRef.current?.show({
+                window.glToastRef.current?.show({
                   severity: "success",
                   detail: res.data,
                 });
@@ -49,13 +51,14 @@ const SidebarUserContent = ({ toastRef }: { toastRef: RefObject<Toast> }) => {
               })
               .catch((err) => {
                 console.error(err);
-                toastRef.current?.show({
+                window.glToastRef.current?.show({
                   severity: "error",
                   detail: err.response.data,
                 });
                 navigate("/");
               });
-            document.getElementById("user-sidebar-button")?.click();
+            /* document.getElementById("user-sidebar-button")?.click(); */
+            window.glToggleUserSidebar(false);
           }}
         />
       </div>

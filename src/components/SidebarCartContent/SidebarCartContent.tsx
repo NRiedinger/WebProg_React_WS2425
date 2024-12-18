@@ -10,18 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "../../axiosURL";
 import { ICartItem } from "../../interfaces/CartItemInterface";
-import {
-  addItemToCart,
-  AppState,
-  removeItemFromCart,
-} from "../../reducer/reducer";
+import { addItemToCart, AppState, removeItemFromCart } from "../../reducer/reducer";
 import "./SidebarCartContent.scss";
 
-export const SidebarCartContent = ({
-  toastRef,
-}: {
-  toastRef: RefObject<Toast>;
-}) => {
+export const SidebarCartContent = ({ toastRef }: { toastRef: RefObject<Toast> }) => {
   const cartItems = useSelector((state: AppState) => state.cartItems);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -39,9 +31,7 @@ export const SidebarCartContent = ({
   };
 
   const getSumItemPrice = () => {
-    return cartItems
-      .map((item) => item.price * item.quantity)
-      .reduce((a, b) => a + b, 0);
+    return cartItems.map((item) => item.price * item.quantity).reduce((a, b) => a + b, 0);
   };
 
   const renderedEmptyCartInfo = (
@@ -58,7 +48,8 @@ export const SidebarCartContent = ({
             className="SidebarCartContent__Item left"
             onClick={() => {
               navigate(`/product/${item.articleId}`);
-              document.getElementById("cart-sidebar-button")?.click();
+              /* document.getElementById("cart-sidebar-button")?.click(); */
+              window.glToggleCartSidebar(false);
             }}
           >
             <div className="SidebarCartContent__Item__Image">
@@ -107,11 +98,14 @@ export const SidebarCartContent = ({
           onClick={() => {
             const isUserLoggedIn = !!Cookies.get("token");
             if (isUserLoggedIn) {
-              document.getElementById("cart-sidebar-button")?.click();
+              /* document.getElementById("cart-sidebar-button")?.click(); */
+              window.glToggleCartSidebar(false);
               navigate("/checkout");
             } else {
-              document.getElementById("cart-sidebar-button")?.click();
-              document.getElementById("user-sidebar-button")?.click();
+              /* document.getElementById("cart-sidebar-button")?.click();
+              document.getElementById("user-sidebar-button")?.click(); */
+              window.glToggleCartSidebar(false);
+              window.glToggleUserSidebar(true);
             }
           }}
         />

@@ -19,6 +19,16 @@ import axios from "../../axiosURL";
 import { AppState, loadCart, setCurrentUser } from "../../reducer/reducer";
 import { SidebarCartContent } from "../SidebarCartContent/SidebarCartContent";
 
+declare global {
+  interface Window {
+    glToastRef: RefObject<Toast>;
+    glToggleUserSidebar: (visible: boolean) => void;
+    glToggleCartSidebar: (visible: boolean) => void;
+  }
+}
+
+window.glToastRef = window.glToastRef || {};
+
 const NavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -29,16 +39,12 @@ const NavBar = () => {
 
   const isUserLoggedIn = !!Cookies.get("token");
 
-  const toastRef: RefObject<Toast> = useRef<Toast>(null);
+  window.glToastRef = useRef<Toast>(null);
 
   useEffect(() => {
     if (isUserLoggedIn) {
       axios
-        .post(
-          "/getUser",
-          { token: Cookies.get("token") },
-          { withCredentials: true }
-        )
+        .post("/getUser", { token: Cookies.get("token") }, { withCredentials: true })
         .then((res) => {
           dispatch(setCurrentUser(res.data));
         })
@@ -57,14 +63,14 @@ const NavBar = () => {
     localStorage.setItem("cart", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const onUserSidebarToggle = (visible: boolean = !userVisible) => {
+  window.glToggleUserSidebar = (visible: boolean) => {
     document.body.style.overflow = visible ? "hidden" : "";
-    setUserVisible(!userVisible);
+    setUserVisible(visible);
   };
 
-  const onCartSidebarToggle = (visible: boolean = !cartVisible) => {
+  window.glToggleCartSidebar = (visible: boolean) => {
     document.body.style.overflow = visible ? "hidden" : "";
-    setCartVisible(!cartVisible);
+    setCartVisible(visible);
   };
 
   return (
@@ -72,29 +78,19 @@ const NavBar = () => {
       <Sidebar
         visible={cartVisible}
         position="right"
-        onHide={() => onCartSidebarToggle(false)}
+        onHide={() => window.glToggleCartSidebar(false)}
         header={<h1>Warenkorb</h1>}
       >
-        <SidebarCartContent toastRef={toastRef} />
+        <SidebarCartContent toastRef={window.glToastRef} />
       </Sidebar>
 
       <Sidebar
         visible={userVisible}
         position="right"
-        onHide={() => onUserSidebarToggle(false)}
-        header={
-          <h1>
-            {isUserLoggedIn
-              ? `${currentUser?.firstname} ${currentUser?.lastname}`
-              : "Anmelden"}
-          </h1>
-        }
+        onHide={() => window.glToggleUserSidebar(false)}
+        header={<h1>{isUserLoggedIn ? `${currentUser?.firstname} ${currentUser?.lastname}` : "Anmelden"}</h1>}
       >
-        {isUserLoggedIn ? (
-          <SidebarUserContent toastRef={toastRef} />
-        ) : (
-          <LoginPage toastRef={toastRef} />
-        )}
+        {isUserLoggedIn ? <SidebarUserContent /> : <LoginPage />}
       </Sidebar>
 
       <div className="NavBar">
@@ -113,7 +109,7 @@ const NavBar = () => {
             <div
               className="NavBar__Item"
               id="user-sidebar-button"
-              onClick={() => onUserSidebarToggle()}
+              onClick={() => window.glToggleUserSidebar(!userVisible)}
             >
               <IconContext.Provider value={{ size: "3em" }}>
                 <FaRegUser />
@@ -122,16 +118,12 @@ const NavBar = () => {
             <div
               className="NavBar__Item"
               id="cart-sidebar-button"
-              onClick={() => onCartSidebarToggle()}
+              onClick={() => window.glToggleCartSidebar(!cartVisible)}
             >
               <IconContext.Provider value={{ size: "3em" }}>
                 <RiShoppingBag4Line className="p-overlay-badge" />
                 {cartItems.length > 0 ? (
-                  <Badge
-                    value={cartItems
-                      .map((item) => item.quantity)
-                      .reduce((a, b) => a + b, 0)}
-                  ></Badge>
+                  <Badge value={cartItems.map((item) => item.quantity).reduce((a, b) => a + b, 0)}></Badge>
                 ) : null}
               </IconContext.Provider>
             </div>
@@ -139,7 +131,7 @@ const NavBar = () => {
         </div>
       </div>
 
-      <Toast ref={toastRef} position="top-left" />
+      <Toast ref={window.glToastRef} position="top-left" />
     </>
   );
 };
