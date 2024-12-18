@@ -14,8 +14,8 @@ import axios from "../../axiosURL";
 import { fetchCurrentUser } from "../../reducer/reducer";
 
 const LoginPage = ({ toastRef }: { toastRef: RefObject<Toast> }) => {
-  const [email, setEmail] = useState<string>("max@mail.de");
-  const [password, setPassword] = useState<string>("passwort");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
