@@ -1,6 +1,6 @@
 import { Accordion, AccordionTab } from "primereact/Accordion";
 import { Column } from "primereact/Column";
-import { DataTable } from "primereact/datatable";
+import { DataTable } from "primereact/DataTable";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../axiosURL";
