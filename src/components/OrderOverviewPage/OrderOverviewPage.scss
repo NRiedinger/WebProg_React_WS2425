@@ -33,14 +33,17 @@
 
             img {
               height: 100%;
-              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03),
-                0 0 2px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.12);
+              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03), 0 0 2px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.12);
               border-radius: 5px;
             }
           }
 
           .Article__List__Footer {
             text-align: right;
+          }
+
+          .p-datatable-table {
+            min-width: 30em;
           }
         }
       }

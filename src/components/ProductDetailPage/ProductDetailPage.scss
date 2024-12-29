@@ -18,13 +18,16 @@
     .Overview {
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
 
       & > * {
         margin: 0 1em;
       }
 
       & .ProductDetailPage__Container__Row__Image {
-        width: 50%;
+        width: 40%;
+        min-width: 20em;
 
         > img {
           width: 100%;
@@ -46,6 +49,10 @@
 
         .stock-normal {
           color: green;
+        }
+
+        @media (max-width: 1040px) {
+          width: 100%;
         }
       }
     }

@@ -8,6 +8,7 @@
 
     .p-dropdown {
       width: 12em;
+      max-width: calc(50% - 0.75em);
     }
 
     & > * {
@@ -19,9 +20,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 25%;
+    width: 15em;
     border-radius: 5px;
-    /* height: 25em; */
   }
 
   .grid {
