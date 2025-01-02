@@ -4,9 +4,11 @@
 
 ##### Autor: Niklas Riedinger
 
-### Anforderungen
+### Infos
 
-[PDF](./attachments/Projekt_Shop_App_Beschreibung.pdf)
+[Felixkurs](https://felix.hs-furtwangen.de/auth/RepositoryEntry/49021170/CourseNode/110513453899497)
+
+[Projektanforderungen](./attachments/Projekt_Shop_App_Beschreibung.pdf)
 
 ### Verwendete Technologien
 
