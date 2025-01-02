@@ -4,6 +4,10 @@
 
 ##### Autor: Niklas Riedinger
 
+### Anforderungen
+
+[PDF](./attachments/Projekt_Shop_App_Beschreibung.pdf)
+
 ### Verwendete Technologien
 
 - [react](https://www.npmjs.com/package/react)
@@ -17,4 +21,4 @@
 
 ### Preview
 
-![Screenshot](./media/webshop_screenshot.png)
+![Screenshot](./attachments/webshop_screenshot.png)
