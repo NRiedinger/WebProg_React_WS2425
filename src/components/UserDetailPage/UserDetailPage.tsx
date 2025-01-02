@@ -246,7 +246,7 @@ const UserDetailPage = () => {
 
         <Divider />
 
-        <div className="UserDetailPage__Container__Row">
+        <div className="UserDetailPage__Container__Row" style={{ width: "calc(50% - 1em)" }}>
           <FloatLabel>
             <Password
               inputId="oldPassword"

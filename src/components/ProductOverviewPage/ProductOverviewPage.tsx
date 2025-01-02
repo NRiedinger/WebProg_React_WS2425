@@ -21,6 +21,8 @@ const sortOptions: ISortOption[] = [
   { label: "Preis aufsteigend", value: "price" },
   { label: "Bewertung absteigend", value: "!rating" },
   { label: "Bewertung aufsteigend", value: "rating" },
+  { label: "Alphabetisch absteigend", value: "!name" },
+  { label: "Alphabetisch aufsteigend", value: "name" },
 ];
 
 const ProductOverviewPage = () => {
@@ -37,13 +39,9 @@ const ProductOverviewPage = () => {
 
   const [filteredItems, setFilteredItems] = useState<IProduct[]>();
   const [allItems, setAllItems] = useState<IProduct[]>();
-  const [selectedCategoryOptionName, setSelectedCategoryOptionName] = useState<
-    string | undefined
-  >();
-  const [selectedSubcategoryOptionName, setSelectedSubcategoryOptionName] =
-    useState<string | undefined>();
-  const [subcategoryOptions, setSubcategoryOptions] =
-    useState<ISubcategory[]>(subcategories);
+  const [selectedCategoryOptionName, setSelectedCategoryOptionName] = useState<string | undefined>();
+  const [selectedSubcategoryOptionName, setSelectedSubcategoryOptionName] = useState<string | undefined>();
+  const [subcategoryOptions, setSubcategoryOptions] = useState<ISubcategory[]>(subcategories);
 
   useEffect(() => {
     dispatch(loadItemData());
@@ -69,16 +67,12 @@ const ProductOverviewPage = () => {
   };
 
   const onCategoryOptionChange = (e: DropdownChangeEvent) => {
-    const category: ICategory | undefined = categories.find(
-      (category) => category.name === e.value
-    );
+    const category: ICategory | undefined = categories.find((category) => category.name === e.value);
     setSelectedCategoryOptionName(category?.name);
     setSelectedSubcategoryOptionName(undefined);
 
     if (category) {
-      const filtered = items.filter(
-        (item: IProduct) => item.categoryId === category._id
-      );
+      const filtered = items.filter((item: IProduct) => item.categoryId === category._id);
       setFilteredItems(filtered);
     } else {
       setFilteredItems(allItems);
@@ -94,27 +88,17 @@ const ProductOverviewPage = () => {
   };
 
   const onSubcategoryOptionChange = (e: DropdownChangeEvent) => {
-    const category: ICategory | undefined = categories.find(
-      (category) => category.name === selectedCategoryOptionName
-    );
+    const category: ICategory | undefined = categories.find((category) => category.name === selectedCategoryOptionName);
 
-    const subcategory: ISubcategory | undefined = subcategories.find(
-      (subcategory) => subcategory.name === e.value
-    );
+    const subcategory: ISubcategory | undefined = subcategories.find((subcategory) => subcategory.name === e.value);
     setSelectedSubcategoryOptionName(subcategory?.name);
 
     if (category && subcategory) {
       setFilteredItems(
-        items.filter(
-          (item) =>
-            item.categoryId === category._id &&
-            item.subcategoryId === subcategory._id
-        )
+        items.filter((item) => item.categoryId === category._id && item.subcategoryId === subcategory._id)
       );
     } else {
-      setFilteredItems(
-        items.filter((item) => item.categoryId === category?._id)
-      );
+      setFilteredItems(items.filter((item) => item.categoryId === category?._id));
     }
 
     if (!subcategory) {
@@ -190,7 +174,7 @@ const ProductOverviewPage = () => {
         sortField={sortField}
         sortOrder={sortOrder}
         header={header}
-      ></DataView>
+      />
     </div>
   );
 };
