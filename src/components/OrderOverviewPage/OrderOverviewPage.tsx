@@ -1,6 +1,6 @@
 import { Accordion, AccordionTab } from "primereact/Accordion";
 import { Column } from "primereact/Column";
-import { DataTable } from "primereact/DataTable";
+import { DataTable } from "primereact/datatable";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../axiosURL";
@@ -24,9 +24,7 @@ const OrderOverviewPage = () => {
   }, []);
 
   const getArticlesTotalSum = (articles: any[]) => {
-    return articles
-      .map((article) => article.price * article.quantity)
-      .reduce((a, b) => a + b, 0);
+    return articles.map((article) => article.price * article.quantity).reduce((a, b) => a + b, 0);
   };
 
   const orderAccordionHeaderTemplate = (order: IOrder) => {
@@ -39,11 +37,7 @@ const OrderOverviewPage = () => {
 
         <div className="Header__Container__Item">
           <div>Anzahl Artikel</div>
-          <div>
-            {order.articles
-              .map((article) => article.quantity)
-              .reduce((a, b) => a + b, 0)}
-          </div>
+          <div>{order.articles.map((article) => article.quantity).reduce((a, b) => a + b, 0)}</div>
         </div>
 
         <div className="Header__Container__Item">
@@ -113,11 +107,7 @@ const OrderOverviewPage = () => {
     );
   });
 
-  const noOrdersMessage = (
-    <div className="OrderOverviewPage__NoOrders">
-      Keine Bestellungen verfügbar
-    </div>
-  );
+  const noOrdersMessage = <div className="OrderOverviewPage__NoOrders">Keine Bestellungen verfügbar</div>;
 
   return (
     <div className="OrderOverviewPage">
@@ -125,9 +115,7 @@ const OrderOverviewPage = () => {
       {!orders || orders.length === 0 ? (
         noOrdersMessage
       ) : (
-        <Accordion className="OrderOverviewPage__Container">
-          {orderList}
-        </Accordion>
+        <Accordion className="OrderOverviewPage__Container">{orderList}</Accordion>
       )}
     </div>
   );
